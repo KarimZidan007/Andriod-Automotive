@@ -32,7 +32,11 @@ cp /etc/passwd ~
 ```bash
 mv ~/passwd ~/oldpasswd
 ```
+
+
 ##Question 7: You are in /usr/bin, list four ways to go to your home directory.
+
+
 
 ```bash
 cd ~
@@ -41,12 +45,17 @@ cd $HOME
 cd -
 cd
 ```
+
+
 ##Question 8: List Linux commands in /usr/bin that start with the letter w.
+
 
 ```bash
 ls w*
 ```
+
 ##Question 9: What are type commands used for? (from the slide)
+
 
 1-Alias command: Executes before anything else.
 
@@ -54,17 +63,22 @@ ls w*
 
 3-External command: A command that exists as an executable file on the disk of the computer.
 
+
 ##Question 10: Show two types of command files in /usr/bin that start with the letter c.
+
 
 1-Built-in command starting with c: cd
 
 2-External command: cmp
 
+
 ##Question 11: Using the man command, find the command to read a file.
+
 
 ```bash
 man cat
 ```
+
 ##Question 12: What is the usage of the apropos command?
 
 The apropos command helps the user when they don’t remember the exact command but know a few keywords related to the command that define its uses or functionality. It searches the Linux man page with the help of the keyword provided by the user to find the command and its functions.
