@@ -1,43 +1,37 @@
-#include <iostream>
+#include <stdio.h>
+
+#define DATA_MAX_SIZE 10
 
 
-int Binary_Search (int * Arr , int element,int length)
-{
 
-int Start=0;
-int End=length-1;
-int Middle;
+int BinarySearchAlgorithm(int Data[], int Req_Value){
+    
+    int M_Index ,S_Index= 0;
+    int E_Index=(DATA_MAX_SIZE-1);
 
-while(Start<=End)
-{
- Middle=(Start+(End-Start)/2);
-if(element>Arr[Middle])
-{
-	Start=Middle++;
-    std::cout<<Start;
+    while(S_Index <= E_Index){
+        M_Index = S_Index + ((E_Index - S_Index) / 2);
+
+        if(Req_Value == Data[M_Index]){
+            return M_Index;
+        }
+        else if(Req_Value > Data[M_Index]){
+            S_Index = M_Index + 1;
+        }
+        else{
+            E_Index = M_Index - 1;
+        }
+    }
+
+    return -1;
 }
-else if(element<Arr[Middle])
-{
-	End=Middle--;
-    std::cout<<End;
-}
-else if(element==Arr[Middle])
-{
-	break;
-}
-
-
-}
-return Middle;
-}
-
 
 int main()
 {
- int Arr[5]{6,7,8,9,10};
+int MyData[DATA_MAX_SIZE] = {0, 11, 22, 33, 44, 55, 66, 77, 88, 99};
 unsigned int index=0;
-index=Binary_Search(Arr,10,5);
-
+index=BinarySearchAlgorithm(MyData,55);
+printf("FOUND ON INDEX %d \n",index);
 
 return 0;
 }
