@@ -1,32 +1,32 @@
-##EXECUTING_METHODS
+## EXECUTING_METHODS
 
 1- ./file.sh
 2- bash file.sh
 3-. file.sh -> execute in current shell
 4- source file.sh -> it will execute it in same shell like i source oe-init on poky
 
-##declaration_Rules
+## declaration_Rules
 
 1- can not start with numbers
 2- can not set a a space between = and VAR NAME
 3- declare NAME=100 # Local variable.
-4- declare NAME=`hostname` declare as command output
+4- declare NAME=$(hostname) declare as command output
 
-##deletion
+## deletion
 
  Delete Variable / Array ===> unset NAME
 
-##concatencation
+## concatencation
 
 name=karem
 
-FULLNAME='${name} zidan' TRUE 
+FULLNAME="${name} zidan" TRUE -> double quotes
 FULLNAME ='$name zidan' WRONG
 
 ![Diagram](./images/1.png)
 
 
-##reading from user
+## reading from user
 
 
 ### a. Before script Run (Positional Parameters).            # Shell variables: 
@@ -42,7 +42,7 @@ FULLNAME ='$name zidan' WRONG
 
 ![Diagram](./images/2.png)
 
-##reading from command
+## reading from command
 
 ```bash
 #!/bin/bash
@@ -56,7 +56,7 @@ echo ${output}
 ![Diagram](./images/3.png)
 
 
-##TEST
+## TEST
 
 syntax: test {condition}
 
@@ -65,7 +65,7 @@ types of conditions
 2- string condition
 3- file condition
 
-##integer condition
+## integer condition
 
 operators
 1. -eq  -> eq
@@ -75,19 +75,19 @@ operators
 5. -ge  -> great or equal
 6. -le  -> less or equal
 
-##string operators 
+## string operators 
 1. -= 
 2. -!=
 3. -z -> zero charachters -> empty string 
 4. -n -> non zero charachters -> not empty string
 
-##file operators 
+## file operators 
 
 1.  -f-> file exist  
 2.  -d-> directory exist
 3.  -x-> is that file executable
 
-##TRUE IN BASH IS 0
+## TRUE IN BASH IS 0
 
 ```bash
 if test -d /home; then echo "/home is a directory"; else echo "/home is not a directory"; fi
@@ -95,7 +95,7 @@ if test -d /home; then echo "/home is a directory"; else echo "/home is not a di
 
 ![Diagram](./images/4.png)
 
-##$?
+## $?
 it stores the exit status of last command 
 
 0-> TRUE
@@ -103,7 +103,7 @@ it stores the exit status of last command
 
 ![Diagram](./images/5.png)
 
-##using []
+## using []
 
 ```bash
 
@@ -117,7 +117,7 @@ or
 
 ![Diagram](./images/6.png)
 
-#Logical Operators
+# Logical Operators
 
 1. && or -a 
 2. || or -o 
@@ -128,9 +128,9 @@ Synt1-> [ condition ]  &&-|| [ condition ] use symbols
 Synt2-> [[condition1  &&-||  condition2  &&-||   condition3   ]] also use symbols 
 Synt3-> [ condition1 operator (-a or -o ) condition2 ]
 
-##Multiple Condition Using Test
+## Multiple Condition Using Test
 
-#multiple condition
+# multiple condition
 
 ```bash
 test "$num" -eq 1 && test "$string" = "ahmed"
@@ -141,7 +141,7 @@ test "$num" -eq 1 -a "$string"="ahmed"
 echo 
 echo $?
 ```
-##if condition
+## if condition
 
 ```bash
 if [[ condition ]]; then
@@ -160,7 +160,7 @@ else
 
 fi
 ```
-##elif
+## elif
 
 ```bash
 if [ condition1 ]; then
@@ -172,7 +172,7 @@ else
 fi
 ```
 
-##for loop
+## for loop
 
 ```bash
 
@@ -198,7 +198,7 @@ done
 
 
 ```
-#another example
+# another example
 
 ```bash
 for var in {1...9}
@@ -241,7 +241,7 @@ done
 ```
 ![Diagram](./images/9.png)
 
-##using c style operators
+## using c style operators
 
 ```bash
 
@@ -255,7 +255,7 @@ done
 ```
 ![Diagram](./images/10.png)
 
-##until
+## until
 
 ```bash
 until [ condition ]; do
@@ -263,12 +263,12 @@ echo "Hello"
 done #or use break to break for one iteration only
 ```
 
-##array
+## array
 
 1. index array 
 2. assotiative array
 
-##index array 
+## index array 
 
 1. implicit decleration ex:
 
@@ -350,17 +350,17 @@ OUTPUT WILL BE
 
 ![Diagram](./images/13.png)
 
-##printing array length
+## printing array length
 
 ```bash
 echo ${#fruites[@]}
 ```
-##array slicing
+## array slicing
 
 ```bash
 echo ${fruites[@]:1:2} ##array slicing from elem1 display two elements
 ```
-##remove array element
+## remove array element
 
 ```bash 
 
@@ -377,7 +377,7 @@ do
 echo $var
 done 
 ```
-##assotiative array
+## assotiative array
 
 1. declaration -> explicit
 ex:
@@ -402,7 +402,7 @@ echo key is $key,value is ${fruits[$key]}
 done
 
 ```
-##explicit casting for variable 
+## explicit casting for variable 
 
 1. expr
 
@@ -424,7 +424,7 @@ declare -i  var=5
 ```
 NOTE:with out spaces 
 
-##SHELL ARGUMENTS
+## SHELL ARGUMENTS
 
 1. a. Before script Run (Positional Parameters).            
 2.           $0  ---> name script. 
@@ -459,7 +459,7 @@ case expression in
 esac
     
 ```
-##SELECT
+## SELECT
 
 #!/bin/bash
 
@@ -505,7 +505,7 @@ done
 1. asking user to choose on of the following options you set before like option array
 then merge it with case 
 
-##STRINGS
+## STRINGS
 String="name"
 
 ```bash
@@ -519,9 +519,9 @@ substring=${String:2:4}
 echo ${substring} # display the substring
 
 ```
-#FUNCTIONS
+# FUNCTIONS
 
-##there is three syntax to write function
+## there is three syntax to write function
 
 1. 
 ```bash
@@ -555,7 +555,7 @@ func
 
 ```
 
-#local var 
+## local var 
 
 ```bash
 #!/bin/bash
