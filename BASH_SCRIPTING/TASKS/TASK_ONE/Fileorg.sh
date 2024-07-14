@@ -2,6 +2,14 @@
 
 
 
+
+
+
+
+if [ "$#" -nq 1 ];then
+echo ERROR
+else
+
 Source_Directory=$1
 
  if [[ ! -e $Source_Directory/images ]];
@@ -47,6 +55,12 @@ done
 
 
 find $1 -maxdepth 1 -type f -exec mv {} $1/others/ \;
+
+
+
+
+fi
+
 
 
 
