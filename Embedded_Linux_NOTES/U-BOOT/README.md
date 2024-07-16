@@ -1,4 +1,4 @@
-## UBOOT vs ## GRUB
+## UBOOT vs  GRUB
 
 
 ## 1-Size Comparison
