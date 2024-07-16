@@ -186,6 +186,10 @@ sudo apt-get install device-tree-compiler
 
  ![out](images/15.png)    
 
+6. **md** -> memory display display address in ram 
+
+ ![out](images/30.png)    
+
 **Variables** Variables here i could set it to a value or a script  
 6. how to create new variable -> **setenv** -> create new var
 EX: 
@@ -305,18 +309,105 @@ make
 qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot
 
 ```
+ ![out](images/26.png)   
+
+## changing the autoboot delay
+
+- if i want to change an envvar i have to enable on menuconfig 
+
+1. exit qemu 
+
+2. 
+```bash
+make menuconfig
+```
+3. enable editenv | saveenv
+
+4. 
+
+ ![out](images/27.png)   
 
 
 
 
-## attach EMULATED SD card that we create before with qemu 
-
-
-13. how to attach sdcard ? -> 
+ ![out](images/28.png)   
 
 ```bash
-qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot **-sd** ../PATH/TO/SD.img
+make
+qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot
+
 ```
+## now we can changing variable value
+
+1. **editenv** (var_name)
+
+2. set the new value 
+
+3. saveenv
+
+4. run (var_name)
+
+
+EX:
+
+  ![out](images/29.png)   
+
+
+
+
+## try it with **bootdelay** env make autoboot delay with 5 seconds 
+
+
+
+- how to know the first address of DRAM or ROM?
+
+   using->  **bdinfo**
+
+  ![out](images/31.png)   
+
+## as we now kernel image is a file so i could load kernel on RAM in that way 
+
+1. exit qemu
+
+2. change directory to EMULATED SDCARD - FAT16 Partition (Bootable partition that we have create before)
+
+  ![out](images/32.png)   
+
+3. create a file called zImage and write a string on it 
+    
+   ![out](images/33.png)   
+
+4. now switch to qemu but add -sd /PATH/TO/EMULATEDSD.img 
+
+
+```bash
+qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot -sd /PATH/TO/EMULATEDSD.img 
+
+//to check that sd card has been attached
+mmc dev 
+
+```
+
+ and - use **fatload** command 
+
+-fatload ->fatload <interface> [<dev[:part]> [<addr> [<filename> [bytes [pos]]]]]
+
+- there is a variable called $kernel_addr_r -> has the address of the kerenl 
+
+![out](images/34.png)   
+
+5. now we can load the zImage and then check it on memory
+EX:
+
+```bash
+    fatload mmc 0:1 0x60100000 zImage
+    md 0x60100000
+```
+
+![out](images/35.png)   
+
+---------
+
 
 
 
