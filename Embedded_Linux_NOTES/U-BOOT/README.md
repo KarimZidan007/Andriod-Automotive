@@ -306,7 +306,7 @@ qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot
 
 ```
 
- ![out](images/26.png)
+
 
 
 ## attach EMULATED SD card that we create before with qemu 
@@ -317,73 +317,6 @@ qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot
 ```bash
 qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot **-sd** ../PATH/TO/SD.img
 ```
-
-
-13. then **bootdelay** is 2 seconds and i want to change it what should i do ?
-
-
-1. make menuconfig
-2. bootd -> run bootcmd like it 
-3. saveenv
-4. editenv
-5. mmc 
-
-- search on command line interface for what you need 
-
-- uboot.env-> when uboot runs he reads it like .bashrc 
-
-6. **md** -> display address in ram 
-
-7. how to know the first address bdinfo
-
-8. kernel is a file so i could load kerneel in that way 
-
-
-
-9. fatload ->fatload <interface> [<dev[:part]> [<addr> [<filename> [bytes [pos]]]]]
-    EX:fatload mmc 0:1 0x60100000 zImage
-      : md 0x60100000
-
-10. kerenel need two files dtp and need the zimage 
-
-11. $kerenel_addr_r -> address provided by qemu to load in ram ->zimage
-    => printenv kernel_addr_r 
-    kernel_addr_r=0x60100000
-
-   $fdt_addr= device tree file 
-    => printenv fdt_addr_r
-    fdt_addr_r=0x60000000
-
-12. setenv bootcmd "fatload mmc 0:1 ${kernel_addr_r} zImage;md ${kernel_addr_r}"
-
-13. saveenv
-
-14. editenv bootcmd 
-
-## TFTP
-
-1. :69 -> Port
-
-2. connection throw ethernet cable / or virtual network interface 
-
-**what is virtual network interface**?
-
-between x86 which is my host (Tap) -> anew network interface on my host  on x86   (Nic) on qemu -> do it on emulator as **-net**  
-
-## on host side
-1. add Tap by -> ** ip a add 192.168.1.8/24  dev Tap 
-
-2. ip set link Tap up  
-
-3. on qemu side -> qemu-system-arm  -> then add  -net nic -net Tap,script=add the two commands upwards (add Tap then ipset)  replace Tap  ->(1. add Tap by -> ** ip a add 192.168.1.8/24  dev $1 ) 2.(ip set link $1 up  )                **-kernel at last command** 
-
-
-4. set env ipaddr =sam ip 192.168.1.(new host ip) 
-
-
-5. search for loading file into ram  
-
-source -> mkimg
 
 
 
