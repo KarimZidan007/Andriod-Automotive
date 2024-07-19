@@ -87,7 +87,7 @@ else
 
 1. write the script on .txt extension 
 
-![1](/images/1.png)
+![1](images/1.png)
 
 2. open qemu and attach SD CARD 
 
@@ -101,17 +101,17 @@ sudo qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot -sd PATH/TO/EMULAT
 
 3. lets load the script as a .txt file like this
 
-![1](/images/2.png)
+![1](images/2.png)
 
 
 - we load it as a .txt file just strings so we can not execute it 
 
-![1](/images/3.png)
+![1](images/3.png)
 
 
 - if you try to execute you going to get this error
 
-![1](/images/4.png)
+![1](images/4.png)
 
 
 **What is the solution ?**
@@ -134,7 +134,7 @@ sudo apt-get install u-boot-tools
 mkimage -A arm -T script -C none -n 'Boot script' -d /PATH/TO/SCRIPT.txt /PATH/TO/boot_script.img
 
 ```
-![1](/images/5.png)
+![1](images/5.png)
 
 2. move it into the FAT partition of our EMULATED SDCARD
 
@@ -154,12 +154,12 @@ md (address)
 EX:
 
 
-![1](/images/6.png)
+![1](images/6.png)
 
 
 5. now if we tried to run the script it gonna execute
 
-![1](/images/7.png)
+![1](images/7.png)
 
 
 6. so now we gonna create simple file called zImage on the FAT Partition on SDCARD contain a string to make sure that script behave on the right way and load the kernel   
@@ -170,7 +170,7 @@ sudo vim zImage
 
 ```
 
-![1](/images/8.png) 
+![1](images/8.png) 
 
 
 - So now we have boot_script.img and zImage on the fat partition , we going to use boot_script.img to auto load zImage on ram as we mentioned before on the script explaination 
@@ -189,23 +189,23 @@ fatload mmc 0:1 (address) (scriptname.img)
 ```
 - md (address) check that script already loaded
 
-![1](/images/6.png)
+![1](images/6.png)
 
 
 8. now execute the script and you will find that zImage is loaded 
 
-![1](/images/10.png) 
+![1](images/10.png) 
 
 9. check on ${kernel_addr_r} on ram and you will find the string we wrote before on zImage "Kernel Loaded"
 
-![1](/images/9.png)  
+![1](images/9.png)  
 
 
 ## now we need to make bootcmd load the script manually once autoboot called
 
 - so we going to editenv the bootcmd (you need to enable saveenv and editenv from menuconfig first)
 
-![1](/images/11.png) 
+![1](images/11.png) 
 
 - once autoboot called bootcmd (firstscript of u-boot) we need the following   
 
@@ -238,7 +238,14 @@ saveenv
 ```bash
 run bootcmd
 ```
-![1](/images/12.png) 
+- SCRIPT GONNA BE EXECUTED AND YOU GONNA FIND KERNEL ON REQUIRED ADDRESS ON RAM
+
+![1](images/12.png) 
+
+
+
+![1](images/9.png)  
+
 
 
 
