@@ -1,0 +1,29 @@
+setenv mmc_found 0
+setenv mmc_target 0
+
+for mmc_num in 0 1 2 3 4 5; do
+    if mmc dev ${mmc_num}; then
+        setenv mmc_found 1
+        setenv mmc_target ${mmc_num}
+    fi
+done
+
+if test ${mmc_found} -eq 1; then
+    echo "SDCARD FOUND LOADING..."
+   
+    fatload mmc ${mmc_target}:1 ${kernel_addr_r} zImage
+
+    fatload mmc ${mmc_target}:1 ${fdt_addr_r} myfile.dtp
+
+elif ping ${serverip}; then
+
+    echo "NETWORK CONNECTION FOUND LOADING..."
+    tftp ${kernel_addr_r} ${serverip}:~/SDCARD/PART1/zImage
+    tftp ${fdt_addr_r} ${serverip}:~/SDCARD/PART1/myfile.dtp
+
+else
+    echo "NO OPTIONS"
+fi
+
+echo "SCRIPT DONE"
+
