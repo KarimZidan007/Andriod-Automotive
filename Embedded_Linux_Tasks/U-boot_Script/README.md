@@ -18,6 +18,7 @@ setenv mmc_found 0
 setenv mmc_target 0
 ```
 1. mmc_found: Flag to indicate whether an MMC device (SD card) is detected.
+
 2. mmc_target: Stores the detected MMC device number.
 
 ## 2.Detect SDCARD
@@ -101,6 +102,7 @@ sudo qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot -sd PATH/TO/EMULAT
 
 3. lets load the script as a .txt file like this
 
+
 ![1](images/2.png)
 
 
@@ -136,6 +138,8 @@ mkimage -A arm -T script -C none -n 'Boot script' -d /PATH/TO/SCRIPT.txt /PATH/T
 ```
 ![1](images/5.png)
 
+
+
 2. move it into the FAT partition of our EMULATED SDCARD
 
 
@@ -144,6 +148,8 @@ mkimage -A arm -T script -C none -n 'Boot script' -d /PATH/TO/SCRIPT.txt /PATH/T
 ```bash 
 sudo qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot -sd ~/SDCARD/EMULATEDSD.img -net nic -net tap,ifname=tap0,script=/home/karimzidantech/NETWORK_SCRIPT/qemu-ifup
 ```
+
+
 4. load the boot_script.img into ram
 
 ```bash
@@ -154,15 +160,22 @@ md (address)
 EX:
 
 
+
 ![1](images/6.png)
+
 
 
 5. now if we tried to run the script it gonna execute
 
+
+
 ![1](images/7.png)
 
 
+
 6. so now we gonna create simple file called zImage on the FAT Partition on SDCARD contain a string to make sure that script behave on the right way and load the kernel   
+
+
 
 ```bash 
 
@@ -183,10 +196,12 @@ sudo vim zImage
 
 **if you quit qemu you need to reload the script**
 
+
 ```bash
 fatload mmc 0:1 (address) (scriptname.img)
 
 ```
+
 - md (address) check that script already loaded
 
 ![1](images/6.png)
@@ -211,9 +226,12 @@ fatload mmc 0:1 (address) (scriptname.img)
 
 1. load the script from fat partition from sd card on $kernel_addr_r which is prefered to write it directly on hex form 0x60100000 and we gonna findout why or just before loading set a new envvar to 0x60100000 and use it choose what suits u
 
+
 ```bash
 fatload mmc 0:1 $kernel_addr_r boot_script.img 
 ```
+
+
 2. then we need to add an offset to $kernel_addr_r because we don't need to overwrite our script so we going to edit $kernel_addr_r and save it
 
 ```bash
@@ -222,13 +240,20 @@ setenv kernel_addr_r 0x60200000 ; saveenv
 3. execute the script which located at 0x60100000
 
 
-4. so our simple second script gonna be and save it on bootcmd 
+4. so our simple second script gonna be and save it on bootcmd  (change it from menuconfig or using envedit command )
+
 
 ```bash
+
+envedit bootcmd
+
 fatload mmc 0:1 0x60100000 boot_script.img ;setenv kernel_addr_r 0x60200000 ; saveenv ; source 0x60100000
+
 ```
 
 5. to save the script value into bootcmd (you need to enable saveenv and editenv from menuconfig first)
+
+
 ```bash
 saveenv 
 ```
