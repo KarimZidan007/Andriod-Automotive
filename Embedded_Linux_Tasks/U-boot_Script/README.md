@@ -85,7 +85,7 @@ else
 
 ## EXPLAINATION 
 
-1. write the script on .txt extension 
+1. write the script on .txt extension and set it on FAT partition on virtual SDCARD
 
 ![1](images/1.png)
 
