@@ -406,9 +406,104 @@ EX:
 
 ![out](images/35.png)   
 
----------
 
 
+
+## TFTP CONNECTION
+
+1. TFTP USE -> :69 -> Port
+
+2. connection throw ethernet cable / or virtual network interface 
+
+**what is virtual network interface**?
+
+
+- setting up a new virtual network interface called tap on my host which gonna interact with uboot nic  (virtual network interface card) 
+
+## SETPS 
+
+1. sudo ip tuntap add dev tap0 mode tap (run ip a -> and you will find the new interface on down mode)
+
+    
+
+2. add address to tap by -> ** ip a add 192.168.0.1/24  dev tap0 
+
+3. ip set link Tap up    -> (run ifconfig and then you will find the interface on up mode now)
+
+or just doing it by a script
+
+```bash
+sudo ip tuntap add dev tap0 mode tap
+sudo add address to tap by -> ** ip a add 192.168.0.1/24  dev tap0 
+sudo ip set link Tap up  
+```
+
+then access qemu using this command 
+
+```bash 
+sudo qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot -sd ~/SDCARD/EMULATEDSD.img -net nic -net tap,ifname=tap0,script=/home/karimzidantech/NETWORK_SCRIPT/qemu-ifup
+
+```
+
+![out](images/36.png)   
+
+4. setenv ipaddr  (ip) 
+
+![out](images/37.png)   
+
+
+## transfer file using tftp
+
+**ON HOST MACHINE**
+1. change directory to this tftp directory -> this file attached to tftp protocol 
+![out](images/39.png)   
+
+2. touch a file (text.txt) for example then write any string on it 
+![out](images/40.png)
+
+  
+**on u-boot side**
+
+1. set this variables first
+
+- setenv ipaddr <YOUR_IP_ADDRESS> -> address different to the host 
+
+- setenv netmask <YOUR_NETMASK> - >255.255.255.0
+
+- setenv serverip <SERVER IP>  -> ip of host machine that runs tftp server 
+
+![out](images/38.png)   
+
+2. in U-Boot, run bdinfo, which will allow you to find out that RAM starts at 0x60000000. Therefore, we
+will use the 0x61000000 address to test tftp.
+
+3. run this command
+
+```bash 
+tftp 0x61000000 textfile.txt
+
+```
+4. then display memory at this address
+
+```bash
+md 0x61000000
+```
+![out](images/41.png)   
+
+
+
+
+## WHAT IS mkimg
+
+
+mkimg is often used to create images of filesystems or to prepare bootable images. Here’s a basic example of how you might use mkimg:
+
+
+```bash
+mkimg -f raw -o myimage.img -d /path/to/source
+
+
+```
 
 
  
