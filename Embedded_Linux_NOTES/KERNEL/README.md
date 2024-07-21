@@ -24,6 +24,8 @@ make ARCH=arm menuconfig
 1. enable kernel compression mode (XZ)
 
 General Setup -> enable kernel compression mode
+
+
 ![2](images/5.png)
 
 
@@ -33,9 +35,7 @@ Boot-options -> Default kernel command string
 
 - console=ttyAMA0
 
-![2](images/2.png)
-
--save and exit 
+- save and exit 
 
 
 ```bash
@@ -120,7 +120,7 @@ bootz $kernel-addr-r - $fdt_addr_r
 **LOAD USING SCRIPT** 
 
  use this script to load or follow steps to build your own script-> check it here (https://github.com/KarimZidan007/Andriod-Automotive/tree/main/Embedded_Linux_Tasks/U-boot_Script)
-SEARCH FOR BOOTARROW
+
 
 ```bash
 Autoboot (runcmd) will execute script manually and load the image and dtb file
