@@ -136,6 +136,21 @@ sudo apt-get install u-boot-tools
 mkimage -A arm -T script -C none -n 'Boot script' -d /PATH/TO/SCRIPT.txt /PATH/TO/boot_script.img
 
 ```
+-T -> type 
+
+1. script
+2. image(zimage - image)
+
+-C -> the image is compressed or no 
+
+-e -> entrypoint (address to load)
+
+-A archeticture
+
+-d -> path to (Script/kernel) input
+
+
+
 ![1](images/5.png)
 
 

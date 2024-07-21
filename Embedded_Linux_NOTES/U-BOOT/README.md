@@ -409,7 +409,7 @@ EX:
 
 
 
-## TFTP CONNECTION
+## TFTP CONNECTION 
 
 1. TFTP USE -> :69 -> Port
 
@@ -421,6 +421,34 @@ EX:
 - setting up a new virtual network interface called tap on my host which gonna interact with uboot nic  (virtual network interface card) 
 
 ## SETPS 
+
+- on x86
+
+1. display the tftp on x86
+
+```bash
+
+sudo apt install tftp-hpa
+
+```
+
+2. change the configuration of tftp from --secure (read) add --create (write)
+
+```bash
+sudo vim /etc/default/tftpd-hpa
+```
+![out](images/43.png)   
+
+
+3. change owner of the tftp folder 
+
+```bash
+sudo chown tftp:tftp /srv/tftp/
+
+```
+![out](images/41.png)   
+
+then 
 
 1. sudo ip tuntap add dev tap0 mode tap (run ip a -> and you will find the new interface on down mode)
 
@@ -491,22 +519,80 @@ md 0x61000000
 ![out](images/41.png)   
 
 
+## what is the difference between U-image / Image /zImage
 
+1. zImage -> compressed generic image for any type of bootloaders
+2. Image / iImage -> uncompressed generic image for any type of bootloaders
+3. Uimage -> compress/uncompressed specified for U-boot only
 
-## WHAT IS mkimg
+##What is mkimage?
 
-
-mkimg is often used to create images of filesystems or to prepare bootable images. Here’s a basic example of how you might use mkimg:
-
+mkimage is a tool that prepares files, such as kernel images, device tree blobs, and ramdisk images, for use with U-Boot. It generates images with headers that include metadata required by U-Boot to properly load and execute them.
 
 ```bash
-mkimg -f raw -o myimage.img -d /path/to/source
+sudo apt-get update
+sudo apt-get install u-boot-tools
+```
 
+- mkimg is often used to create images of filesystems or to prepare bootable images. Here’s a basic example of how you might use mkimg:
+
+-  simply we need it to convert our script into executable script on u-boot enviroments 
+
+so input of mkimg is (zImage/Image)
+
+-T -> type 
+
+1. script
+2. image(zimage - image)
+
+-C -> the image is compressed or no 
+
+-e -> entrypoint (address to load)
+
+-A archeticture
+
+-d -> path to (Script/kernel) input
+
+```bash
+mkimage -A arm -T script -C none -n 'Boot script' -d /PATH/TO/SCRIPT.txt /PATH/TO/boot_script.img
 
 ```
 
+- run script -> source (address)
+- bootm - bootz -booti -> image
+
 
  
+## using EXTLINUX
+
+when i run a command called bootflowscan 
+
+1. uboot goes to the sdcard search for primary bootable (EFI) partition then search for extlinux.conf which going to guide u boot to the zimage directory
+
+1. download extlinux.conf and then replace with cmdline.img
+
+or make it by your self 
+```bash
+mkdir extlinux 
+cd extlinux
+touch extlinux.conf
+```
+
+vim extlinux.conf
+
+```bash
+LABAL my extconf
+KERNEL ../zImage
+FDT ../myfile.dtb
+```
+![out](images/44.png)   
+
+
+## is DTC COMPILER DEPENDED?
+
+
+
+
 
 
 
