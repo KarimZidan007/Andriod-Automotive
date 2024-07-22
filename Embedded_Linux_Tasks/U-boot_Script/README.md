@@ -106,7 +106,7 @@ else
 
 1. write the script on .txt extension and set it on FAT partition on virtual SDCARD
 
-![1](images/1.png)
+![1](images/13.png)
 
 2. open qemu and attach SD CARD 
 
