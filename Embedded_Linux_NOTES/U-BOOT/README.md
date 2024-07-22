@@ -462,8 +462,8 @@ or just doing it by a script
 
 ```bash
 sudo ip tuntap add dev tap0 mode tap
-sudo add address to tap by -> ** ip a add 192.168.0.1/24  dev tap0 
-sudo ip set link Tap up  
+ip a add 192.168.0.1/24  dev tap0 
+sudo ip link set tap0 up  
 ```
 
 then access qemu using this command 
