@@ -131,3 +131,4 @@ bootz $kernel_addr_r - $fdt_addr_r
 ![2](images/14.png)
 
 
+bcm2837-rpi-3-b-plus.dts

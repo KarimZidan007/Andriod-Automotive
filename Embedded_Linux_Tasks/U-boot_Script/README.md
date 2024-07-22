@@ -1,10 +1,11 @@
-# U-Boot Boot Script
+U-Boot Script Explanation
+
 
 ## Overview
 
-This U-Boot script is designed to automate the boot process by:
+This U-Boot script is designed to attempt to boot a kernel image (zImage) and a Device Tree Blob (DTB_FILE.dtb) from either an MMC (MultiMediaCard) device or over the network via TFTP (Trivial File Transfer Protocol). The script will try multiple times to locate and load these files based on the availability of the MMC device and network connection.
 
-1. **Detecting an SD Card**: Scans multiple MMC slots to find an SD card.
+1. **Detecting an SD Card**: Scans MMC slot to find an SD card.
 2. **Loading Files from SD Card**: If an SD card is found, loads the kernel image and device tree blob from it.
 3. **Fallback to Network Loading**: If no SD card is detected, attempts to load the files from a network using TFTP.
 4. **Handling Absence of Options**: Prints a message if neither an SD card nor network connectivity is available.
@@ -14,63 +15,80 @@ This U-Boot script is designed to automate the boot process by:
 ### 1. Initialize Environment Variables
 
 ```sh
-setenv mmc_found 0
-setenv mmc_target 0
+setenv serverip 192.168.0.1
+setenv ipaddr 192.168.0.2
+setenv netmask 255.255.255.0
+
 ```
-1. mmc_found: Flag to indicate whether an MMC device (SD card) is detected.
+1. serverip:Sets the IP address of the TFTP server where the kernel and Device Tree files will be retrieved from if not found on the MMC device.
 
-2. mmc_target: Stores the detected MMC device number.
+2. ipaddr: Sets the IP address of the current device (e.g., the U-Boot host).
 
-## 2.Detect SDCARD
+3. netmask : Defines the subnet mask for the network.
+
+## Main Loop
 
 ```sh
-for mmc_num in 0 1 2 3 4 5; do
-    if mmc dev ${mmc_num}; then
-        setenv mmc_found 1
-        setenv mmc_target ${mmc_num}
-    fi
-done
+for trying_num in 0 1 2 3 4; do
 ```
-1. Loop through MMC slots (0 to 5): Checks each slot for the presence of an SD card.
+- This loop will iterate 5 times (from 0 to 4), attempting each time to load the kernel and Device Tree from the MMC or TFTP, depending on availability.
 
-2. mmc dev ${mmc_num}: Verifies if an MMC device is present at each slot.
+## Detect SDCARD
 
-3. Set environment variables: Updates mmc_found and mmc_target based on the detected device.
+```sh
+if mmc dev 0; then
 
-## 3. Load Files
+```
+- mmc dev 0: Checks if the MMC device (typically the first MMC device) is available. If the MMC device is present, the script proceeds with loading the kernel and Device Tree from it.
 
-1. If an SD card is found:
+```sh
+    fatload mmc 0:1 ${kernel_addr_r} zImage
+    fatload mmc 0:1 ${fdt_addr_r} DTB_FILE.dtb
+    bootz ${kernel_addr_r} - ${fdt_addr_r}
+```
+- fatload mmc 0:1 ${kernel_addr_r} zImage: Loads the kernel image (zImage) from the first partition of the MMC device (mmc 0:1) into the memory address specified by kernel_addr_r.
+
+- fatload mmc 0:1 ${fdt_addr_r} vexpress-v2p-ca9.dtb: Loads the Device Tree Blob (vexpress-v2p-ca9.dtb) from the MMC device into the memory address specified by fdt_addr_r.
+
+- bootz ${kernel_addr_r} - ${fdt_addr_r}: Boots the kernel image (zImage) with the Device Tree Blob (vexpress-v2p-ca9.dtb) from the specified memory addresses.
+
+
+## Checking Network Connection
+
+```sh
+
+elif ping ${serverip}; then
+
+```
+- ping ${serverip}: Checks if the TFTP server at serverip is reachable. If the server is reachable, the script proceeds to load files via TFTP.
+
+
+
 
 
 ```bash
-if test ${mmc_found} -eq 1; then
-    echo "SDCARD FOUND LOADING..."
-    fatload mmc ${mmc_target}:1 ${kernel_addr_r} zImage
-    fatload mmc ${mmc_target}:1 ${fdt_addr_r} myfile.dtp
-
-
-
-```
-
-- fatload mmc ${mmc_target}:1 ${kernel_addr_r} zImage: Loads the kernel image into memory.
-- fatload mmc ${mmc_target}:1 ${fdt_addr_r} myfile.dtp: Loads the device tree blob into memory.
-
-
-2. If no SD card is found but network connectivity is available:
-
-```bash 
-elif ping ${serverip}; then
     echo "NETWORK CONNECTION FOUND LOADING..."
-    tftp ${kernel_addr_r} ${serverip}:~/SDCARD/PART1/zImage
-    tftp ${fdt_addr_r} ${serverip}:~/SDCARD/PART1/myfile.dtp
+    tftp ${kernel_addr_r} ${serverip}:/PART1/zImage
+    tftp ${fdt_addr_r} ${serverip}:/PART1/DTB_FILE.dtb
+    bootz ${kernel_addr_r} - ${fdt_addr_r}
 
 ```
-- ping ${serverip}: Checks for network connectivity.
-- tftp ${kernel_addr_r} ${serverip}:~/SDCARD/PART1/zImage: Loads the kernel image via TFTP.
-- tftp ${fdt_addr_r} ${serverip}:~/SDCARD/PART1/myfile.dtp: Loads the device tree blob via TFTP.
+
+- echo "NETWORK CONNECTION FOUND LOADING...": Prints a message indicating that the network connection has been found and that the script is loading files from the TFTP server.
+
+- tftp ${kernel_addr_r} ${serverip}:/PART1/zImage: Retrieves the kernel image (zImage) from the TFTP server and loads it into the memory address specified by kernel_addr_r.
+
+- tftp ${fdt_addr_r} ${serverip}:/PART1/vexpress-v2p-ca9.dtb: Retrieves the Device Tree Blob (vexpress-v2p-ca9.dtb) from the TFTP server and loads it into the memory address specified by fdt_addr_r.
+
+- bootz ${kernel_addr_r} - ${fdt_addr_r}: Boots the kernel image (zImage) with the Device Tree Blob (vexpress-v2p-ca9.dtb) from the specified memory addresses.
 
 
-## 4. No Options Available
+
+
+
+
+
+## No Options Available
 
 
 ```bash
