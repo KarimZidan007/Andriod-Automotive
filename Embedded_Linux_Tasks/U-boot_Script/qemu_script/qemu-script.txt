@@ -5,21 +5,15 @@ setenv netmask 255.255.255.0
 for trying_num in 0 1 2 3 4; do
 
 if mmc dev 0; then
-
     fatload mmc 0:1 ${kernel_addr_r} zImage
-
     fatload mmc 0:1 ${fdt_addr_r} FDT_FILE.dtb
-
     bootz ${kernel_addr_r} - ${fdt_addr_r}
 
 elif ping ${serverip}; then
-
     echo "NETWORK CONNECTION FOUND LOADING..."
-
-    tftp ${kernel_addr_r} ${serverip}:/PART1/zImage
-    tftp ${fdt_addr_r} ${serverip}:/PART1/FDT_FILE.dtb
+    tftp ${kernel_addr_r} zImage
+    tftp ${fdt_addr_r} FDT_FILE.dtb
     bootz ${kernel_addr_r} - ${fdt_addr_r}
-
 else
     echo "NO OPTIONS"
 fi

@@ -76,9 +76,9 @@ elif ping ${serverip}; then
 
 - echo "NETWORK CONNECTION FOUND LOADING...": Prints a message indicating that the network connection has been found and that the script is loading files from the TFTP server.
 
-- tftp ${kernel_addr_r} ${serverip}:/PART1/zImage: Retrieves the kernel image (zImage) from the TFTP server and loads it into the memory address specified by kernel_addr_r.
+- tftp ${kernel_addr_r} zImage: Retrieves the kernel image (zImage) from the TFTP server and loads it into the memory address specified by kernel_addr_r.
 
-- tftp ${fdt_addr_r} ${serverip}:/PART1/vexpress-v2p-ca9.dtb: Retrieves the Device Tree Blob (vexpress-v2p-ca9.dtb) from the TFTP server and loads it into the memory address specified by fdt_addr_r.
+- tftp ${fdt_addr_r} vexpress-v2p-ca9.dtb: Retrieves the Device Tree Blob (vexpress-v2p-ca9.dtb) from the TFTP server and loads it into the memory address specified by fdt_addr_r.
 
 - bootz ${kernel_addr_r} - ${fdt_addr_r}: Boots the kernel image (zImage) with the Device Tree Blob (vexpress-v2p-ca9.dtb) from the specified memory addresses.
 
