@@ -130,5 +130,29 @@ bootz $kernel_addr_r - $fdt_addr_r
 
 ![2](images/14.png)
 
+SESSION SUMMARIZATION : 
 
-bcm2837-rpi-3-b-plus.dts
+![2](images/final.png)
+
+
+
+
+**Why Kernel Got Panic?**
+
+#Kernel Panic Explanation:
+
+**The kernel panicked because it couldn’t mount the filesystem or locate the initial process. This usually happens because:**
+
+1. Missing Filesystem:
+
+The kernel needs a filesystem to organize and access files. Without it, the kernel cannot load system files or user data.
+
+2. No Init Process:
+
+The kernel couldn’t find or start the initial process (usually /sbin/init) needed to initialize system services.
+
+
+- Summary:
+
+ A filesystem is essential for managing and accessing files, and the init process is crucial for system startup. Without these, the kernel cannot proceed, leading to a panic.
+
