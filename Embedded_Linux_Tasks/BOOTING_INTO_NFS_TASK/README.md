@@ -10,9 +10,9 @@ a root file system on another machine on Network
 
 on developing phase without inserting in and out the usb or sd card use the nfs to test an application on run time or fetch logs from targets and trace it
 
-![6](book.png)
+![6](images/book.png)
 
-![6](book2.png)
+![6](images/book2.png)
 
 **your kernel has to be configured with CONFIG_ROOT_NFS ENABLE BY DEFAULT**
 ## on Host Machine SIDE
@@ -30,13 +30,13 @@ sudo vim /etc/exports
 
 
 
-![6](6.png)
+![6](images/6.png)
 
 
 or
 
 
-![6](8.png)
+![6](images/8.png)
 
 ## Ask NFS server to apply this new configuration (reload this file)
 
@@ -60,7 +60,7 @@ setenv netmask 255.255.255.0
 
 ```
 
-![6](9.png)
+![6](images/9.png)
 
 
 2. 
@@ -72,9 +72,9 @@ tftpboot $kernel_addr_r zImage
 tftpboot $fdt_addr_r vexpress-v2p-ca9.dtb
 
 ```
-![6](10.png)
+![6](images/10.png)
 
-![6](11.png)
+![6](images/11.png)
 
 
 3. set bootargs passed to kernel to notify kenerl that iam using nfs and you will find it on <server-ip>:<root-dir> 
@@ -101,7 +101,7 @@ The nfsroot parameter provides additional details necessary for the kernel to lo
 ```bash
 setenv bootargs  root=/dev/nfs ip=192.168.0.2:::::eth0 nfsroot=192.168.0.1:/home/karimzidantech/Usersace/dynamic/rootfs,nfsvers=3,tcp rw init=/sbin/init
 ```
-![6](13.png)
+![6](images/13.png)
 
 
 3. booting the kernel after passing all arguments (nfs ,initproc)
@@ -113,7 +113,7 @@ bootz $kernel_addr_r - $fdt_addr_r
 
 ```
 
-![6](12.png)
+![6](images/12.png)
 
 
 this process are provided as a Script as a task -> (link)
