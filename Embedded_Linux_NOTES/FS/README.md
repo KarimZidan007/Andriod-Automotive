@@ -1,61 +1,80 @@
-## File system 
+## File system
 
-i want to notifey kernel that root file system is on Partition2
+Why we need File System ?
 
-there is an shared variable called **bootargs** on U-boot
+ ![1](images/2.png)
 
-
-to make kernel mount 
-
- mount -t ext4 /dev/mmcblk0p2 / 
-
-root=/dev/mmcblk0p2 rw
+- also we need filesystem becuase kernel does not include all of its modules during build there is a lodable modules during time 
 
 
-also to say that i want to display on this 
-
-console=/dev/ttyO or /dev/tty0 -> rpi 
-
-console =/dev/AMA0 -> qemu
+![1](images/21.png)
 
 
-## creating an application 
+**EX:**
 
 
-1. make an application and cross compile it 
+![1](images/23.png)
+
+## Essential rootfs Structure
+
+![1](images/22.png)
 
 
-2. 
+## What is the types of File Systems?
 
-![1](1.png)
+![1](images/24.png)
 
 
-pass the rootfile system
+## on last session we got a kernel panic and we know now the reason was filesystem and initproc
+
+- ON **U-BOOT** there is an shared variable called **bootargs** on U-boot
+
+
+## create a directory called rootfs
 
 ```sh
 
-console=ttyAMA0,38400n8 root=/dev/mmcblk0p2 rw
+# create directory rootfs
+mkdir rootfs
+
+
+# change directory to rootfs
+cd rootfs
+
+# create the rest folder for rootfs
+mkdir -p ./dev /etc /proc /mnt
+
+#create folder inittab
+touch /etc/inittab
 
 ```
 
 
-then add init
+## How to customize your own rootfilesystem ?
 
-```sh
+1. create every directory as we mentioned the structured before , download source code for a shell , utilites and cross compile them and move the binaries into /bin and choose your init process 
 
-console=tty0 console=ttyAMA0,38400n8 root=/dev/mmcblk0p2 rw init=/
+- so we need 1. shell 2. utilites 3. initproc and set them into our structure
 
-```
-
-3. run bootcmd 
+![1](images/25.png)
 
 
-![1](2.png)
- 
+![1](images/26.png)
 
-4. i want now to download a set of commands using busybox
 
-![1](3.png)
+2. or just use busybox tool 
+
+## what is busybox ? 
+
+- BusyBox is a lightweight utility that combines many common Unix utilities into a single executable.
+
+- It provides minimal versions of commands like ls, cp, sh, and more, designed for embedded systems and resource-constrained environments.
+
+- BusyBox simplifies system administration and reduces disk space usage by consolidating multiple tools. 
+
+## so we are going to use Busybox
+
+![1](images/3.png)
 
 
 5. 
@@ -64,10 +83,19 @@ console=tty0 console=ttyAMA0,38400n8 root=/dev/mmcblk0p2 rw init=/
 make menuconfig
 
 ```
-![1](4.png)
+![1](images/4.png)
+
+- you could customize your set of utilites you want depend on the image size you want
+
+- set your directory path that we created before here 
+
+![1](images/27.png) 
+
+**IMPORTANT**
+
+- if you are building initramfs you should compile it as astatic 
 
 
-6. choose required commands 
 
 
 7. 
@@ -91,7 +119,11 @@ b- make usr/bin -> copy from install_
 
 
 
+also to say that i want to display on this 
 
+console=/dev/ttyO or /dev/tty0 -> rpi 
+
+console =/dev/AMA0 -> qemu
 
 
 
