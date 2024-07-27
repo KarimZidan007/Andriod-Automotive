@@ -230,11 +230,11 @@ case $choice in
 
 ## 3- LOAD DTB 
 
-![one](images/5.png)
+![one](images/6.png)
 
 ## 4- LOAD RAMFS (0x61000000) address is sutible for vexpress-a9
 
-![one](images/ramfs.png)
+![one](images/ram_fs.png)
 
 ## 5- EDIT KERNEL PARAMETERS (notify that init proc will be /sbin/init
 
