@@ -156,3 +156,5 @@ The kernel couldn’t find or start the initial process (usually /sbin/init) nee
 
  A filesystem is essential for managing and accessing files, and the init process is crucial for system startup. Without these, the kernel cannot proceed, leading to a panic.
 
+![2](images/book.png)
+
