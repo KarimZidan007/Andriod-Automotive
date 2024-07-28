@@ -80,9 +80,17 @@ touch /etc/inittab
 
 ## so we are going to use Busybox
 
+```sh
+
+git clone git:
+```
+
 ![1](images/3.png)
  
-
+```
+export ARCH=arm
+export CROSS_COMPILE=~/x-tools/arm-cortexa9_neon-linux-musleabihf/bin/arm-cortexa9_neon-linux-musleabihf-
+```
 ```sh
 make menuconfig
 
@@ -115,7 +123,11 @@ b- Ensure the executable is self-contained and not dependent on the presence of 
 
 ![1](images/29.png) 
 
+```
+#making sure that cross_compiler are set correctly 
+make ARCH=arm CROSS_COMPILE=~/x-tools/arm-cortexa9_neon-linux-musleabihf/bin/arm-cortexa9_neon-linux-musleabihf-
 
+```
 ```sh
 
 make install
