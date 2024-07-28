@@ -1,3 +1,9 @@
+# BOOTING AND SWITCHING INTO USERSPACE  
+
+## LAST SESSION OUTPUT
+
+![6](ramfilesys.png)
+
 ## File system
 
 Why we need File System ?
@@ -75,9 +81,7 @@ touch /etc/inittab
 ## so we are going to use Busybox
 
 ![1](images/3.png)
-
-
-5. 
+ 
 
 ```sh
 make menuconfig
@@ -87,46 +91,85 @@ make menuconfig
 
 - you could customize your set of utilites you want depend on the image size you want
 
-- set your directory path that we created before here 
+
+
+**IMPORTANT CONFIGURATIONS**
+
+1- IF YOU ARE GOING TO USE RAMFS -> YOU HAVE TO BUILD IT STATICLLY -> WHY?
+
+When using RAMFS, it is often beneficial to build static binaries to:
+
+a- Minimize memory usage by avoiding the need to load dynamic libraries.
+
+b- Ensure the executable is self-contained and not dependent on the presence of specific library versions.
+
+![1](images/30.png) 
+
+
+2- set your directory path that we created before here 
 
 ![1](images/27.png) 
 
-**IMPORTANT**
-
-- if you are building initramfs you should compile it as astatic 
+3- set the path for your crosscompiler you going to use 
 
 
+![1](images/29.png) 
 
-
-7. 
 
 ```sh
 
 make install
 
 ```
-8. then under install_ i will get a rootfs arch for the output 
+## OUTPUT
+1- if you change your distination as we mentioned before you will find the binaries on your rootfs 
 
-9. so i will make my own filesystem and copy the data on it 
+2- if you don't so you have to copy all directories on _install directory on busybox directory into your rootfs
 
-10. 
+```sh
+# to go out from busybox directory
+cd ..
+
+# create directory rootfs
+mkdir rootfs
+
+# copy the content inside the _install into rootfs
+cp -rp ./busybox/_install/ ./rootfs
+
+```
+
+## if you build dynamically 
+
+1 - here you want to move the sysroot directory on the x-tools directory (the directory that contain the output of cross-compile build tool ct-ng that we used before)
+
+![1](images/28.png)
 
 
+```sh 
 
-b- make usr/bin -> copy from install_ 
-   usr/sbin-> copy from install_ 
-   usr/lib -> sysroot
+sudo rsync -a sysroot/ /path/to/rootfs/
+
+
+```
+
+
+**NOTE**
+
+the sysroot directory in crosstool-NG contains the essential components of the target system's root file system, ensuring that the cross-compiled applications can run correctly on the target platform. It includes standard libraries, headers, and potentially other necessary files.
+
+
+## NOW WE ARE READY TO USE THE FILESYSTEM
 
 
 
 also to say that i want to display on this 
 
-console=/dev/ttyO or /dev/tty0 -> rpi 
+console=/dev/ttyO or /dev/tty0
 
 console =/dev/AMA0 -> qemu
 
 
-
+## WE HAVE CREATE THE FILESYSTEM NOW WE GOING TO CUSTOMIZE OUR SIMPLE INIT PROCESS  
 
 
 init process is at **/sbin/init** -> it parse configuration from **/etc/inittab**
@@ -254,169 +297,138 @@ mount -t devtmpfs devtmpfs /dev
 ![rcs](images/rcS.png)
 
 
-**output will be in install_**
-
-## busybox TC 
-
-vim .config 
-
-search for /CONFIG_TC 
-
-## init does not appear 
-
-make it executable
-
-make soft link for commands that already here 
-
-busybox make it by default make softlink for busybox for every command on /bin 
-
-- create inittab
-
-::sysinit:/etc/init.d/rcs -> rcs (run command start)
-::askfirst:/bin/sh
-
-i will make the a script make the above mount rcs 
-mount the sys init 
-
-then on bootarg init=/sbin/init
+## NEVER FORGET TO MAKE ALL SCRIPTS AND INIT PROC TO HAVE EXECUTABLE PERMISSION
 
 
-**sequence**
-1. after i made init=/sbin/init -> parse /etc/init.d/rcs -> it will mount then -> it will askuser first to open shell so i will find the changes
+## if i want to add user beside root
+
+1- during runtime use this command -> adduser
+ 
+2- creating user before my system loads  ->
+
+ i have to create /etc/passwd , /etc/shadow /etc/group  
+
+zidan:x:1000:1000:  /home/zidan  /bin/sh 
+
+# BOOT USING DISK FILE SYSTEM
+
+- lets mention how diskfilesystem works
+
+![diskfilesystem](images/disk_filesystem.png)
+
+- any change happen on runtime (ON RAM) will be affect the original version on diskfilesystem 
+
+## STEPS
+
+1- move rootfs on SDCARD ext4 Partition
 
 
-## steps
-1. mount sd card 
-2. mkdir -p bin sbin usr/bin usr/sbin  usr/lib /etc/init.d dev sys proc 
-3. hack command  rsync  -a ~/busybox/_install  ~/media/sdcard 
-4. rsync -a ~/x-tool/arm/sysroot -> libraries that i build for musl or libcc i need it 
-5. then i will editenv bootarg (init) or if i use efi partition i will use APPEND   
+![rcs](images/t1.png)
 
 
-## initramfs 
-
-this used for recovery mood  
-
-_install  
-
-
-
-i will take bin sbin usr  
-
-so for size i will take the essential commands (mount ls mdsum ) ->compression (cpio) on x86 or host -> and set it on /boot  
-
-   
-now /boot -> dtb , uboot ,zImage , extlinux/extlinux.conf , u-boot.env 
-
-
-
-i want to say to u-boot to boot on 
-1. initrd=/bin/sh -> init proc for the initramfs 
-
-or
-
-2. init=/bin/init -> for my main root file system 
-
-then load it to ram using 
+2- launch qemu
 
 ```sh
-fatload -> to any address away from ram 
 
-bootz $kernel $initramfs $dtb 
+sudo qemu-system-arm -M vexpress-a9 -nographic -kernel u-boot -sd PATH/TO/SDCARD.img -net nic -net tap,ifname=tap0,script=/PATH_TO_NETWORKSCRIPT
 
-- was the initramfs
- 
-if i remove - and initramfs will boot on rfs normally 
 ```
 
-1. after i make commands and scripts cpio then and fatload to ram   
-2. i will boot on it -> mount the partition that i will switch to it 
-3. then i will change root i will use chroot to switch to the 
+3- load zImage
 
+```sh
+fatload mmc 0:1 $kernel_addr_r zImage
 
-i want initramfs -> make c script scanf if 1 make action if 2 make action  (so i want to open file then execute) 
-if 1 i will boot from partition 1 if 2 partition 2 and change root 
+```
 
+4- load dtbfile
 
-(FINAL TASK AFTER NEGOTIATION)
-----------------------
+```sh
+fatload mmc 0:1 $fdt_addr_r vexpress-v2p-ca9.dtb
 
-i will add /etc/inittab on ramfs 
-and init=/sbin/init which will parse inittab 
+```
+5- editenv bootargs 
 
-/etc/inittab 
-::sysiint:init.d/rcs
+```sh
+editenv bootargs
 
-inside rcs 
-read - p ,which partition 
+console=tty0 console=ttyAMA0,38400n8 root=/dev/mmcblk0p2 rootfstype=ext4 rw rootwait init=/sbin/init
 
-switch(var) 
+```
 
-mount the partition
-chroot(to rfs)
+6- boot
 
+```sh
+bootz $kernel_addr_r - $fdt_addr_r
 
-----------------------
+```
+## BOOTING
 
+![rcs](images/31.png)
 
-if i used INITRD -> give it the initramdisk -> init (proc or rootfile) 
+## DONE
 
-----------------------
-
-if i want to add user 
-
-adduser 
-
-and i have to create /etc/passwd , /etc/shadow /etc/group  
-
-
-creating user before my system loads 
-
-fady:x:1000:1000:  /home/fady  /bin/sh 
+![rcs](images/32.png)
 
 
 
-
-to boot on initramfs -> static busybox -> compiled static 
-
-
-sudo qemu-system-arm -M vexpress-a9 -nographic -kernel ~/SDCARD/PART1/zImage -append "console=ttyAMA0 rdinit=/bin/sh " -dtb ~/SDCARD/PART1/vexpress-v2p-ca9.dtb -initrd ~/UserSpace/
-
-=> fatload mmc 0:1 $kernel_addr_r zImage
-4036576 bytes read in 1304 ms (3 MiB/s)
-=> fatload mmc 0:1 $fdt_addr_r vexpress_v2p_ca9.dtb
-Failed to load 'vexpress_v2p_ca9.dtb'
-=> fatload mmc 0:1 $fdt_addr_r vexpress-v2p-ca9.dtb
-14329 bytes read in 17 ms (822.3 KiB/s)
-=> fatload mmc 0:1 0x61000000 uRamdisk
-65009661 bytes read in 19682 ms (3.1 MiB/s)
-=> editenv bootargs
-edit: console=tty0 console=ttyAMA0,38400n8 rdinit=/bin/sh
-=> saveenv
-bootz $kernel_addr 0x61000000 $fdt_addr_r
-
-
-## initramfs
+# initramfs 
 
 a file system which is loaded into ram by u-boot and any changes in the initramfs files does not affect after rebooting because it is not like the diskfs that goes and write the changes into the diskversion 
 
-
-
- and it used in embedded systems for several reasons
+**i have to compile install on static way**
 
 ## ADVANTAGES 
+
 1. faster
-2. used in bootloader double bank to switch to another bank if i update my firmware 
+
+2. used in bootloader double bank to switch to another bank if i update my firmware
+ 
 3. i could make it as boot manager i boot to it first and then choose which partitionn i will boot 
-4. for security -> checksum for the partition before i boot to it to ensure that there is no manipulation 
+
+4. for security -> checksum for the partition before i boot to it to ensure that there is no manipulation
+ 
 5. used in recoverymood in kernel that grub make options to boot into it 
 
+## QUICK SUMMARY OF WHAT WE GOING TO DO 
 
-## MAKE YOUR OWN INITRAMFS
+![one](images/ramfs.png)
+
+**SO ANY CHANGE DURING RUNTIME WILL NOT BE LOST ONCE WE REBOOT**
+
+##STEPS OF BOOTING INTO RAMFS
+
+## 1-LAUNCH QEMU
+
+![one](images/33.png)
 
 
+## 2-LOAD KERNEL
 
-i have to compile install on static way
+![one](images/34.png)
+
+
+## 3- LOAD DTB 
+
+![one](images/35.png)
+
+## 4- LOAD RAMFS (0x61000000) address is sutible for vexpress-a9
+
+![one](images/ram_fs.png)
+
+## 5- EDIT KERNEL PARAMETERS (notify that init proc will be /sbin/init
+
+ 
+![one](images/36.png)
+
+## 6- start kernel
+
+```sh
+bootz $kernel_addr_r 0x61000000 $fdt_addr_r 
+
+```
+
+![one](images/final.png)
 
 
 **your kernel has to be configured with CONFIG_ROOT_NFS ENABLE BY DEFAULT**
@@ -536,4 +548,6 @@ bootz $kernel_addr_r - $fdt_addr_r
 ![6](12.png)
 
 
-this process are provided as a Script as a task -> (link)
+## SUMMARY
+
+this process are provided as a Script as a task -> (https://github.com/KarimZidan007/Andriod-Automotive/tree/main/Embedded_Linux_Tasks/3-BOOTING_INTO_RAMFS_TASK)
