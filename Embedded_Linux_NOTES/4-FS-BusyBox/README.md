@@ -387,7 +387,7 @@ a file system which is loaded into ram by u-boot and any changes in the initramf
 
 **SO ANY CHANGE DURING RUNTIME WILL NOT BE LOST ONCE WE REBOOT**
 
-##STEPS OF BOOTING INTO RAMFS
+## STEPS OF BOOTING INTO RAMFS
 
 ## 1-LAUNCH QEMU
 
