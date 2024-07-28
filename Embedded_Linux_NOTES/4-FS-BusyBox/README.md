@@ -158,15 +158,6 @@ sudo rsync -a sysroot/ /path/to/rootfs/
 the sysroot directory in crosstool-NG contains the essential components of the target system's root file system, ensuring that the cross-compiled applications can run correctly on the target platform. It includes standard libraries, headers, and potentially other necessary files.
 
 
-## NOW WE ARE READY TO USE THE FILESYSTEM
-
-
-
-also to say that i want to display on this 
-
-console=/dev/ttyO or /dev/tty0
-
-console =/dev/AMA0 -> qemu
 
 
 ## WE HAVE CREATE THE FILESYSTEM NOW WE GOING TO CUSTOMIZE OUR SIMPLE INIT PROCESS  
