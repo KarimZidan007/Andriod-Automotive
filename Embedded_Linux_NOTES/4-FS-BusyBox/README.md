@@ -82,7 +82,8 @@ touch /etc/inittab
 
 ```sh
 
-git clone git:
+git cone git://busybox.net/busybox.git
+
 ```
 
 ![1](images/3.png)
