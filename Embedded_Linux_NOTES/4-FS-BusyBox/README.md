@@ -2,13 +2,13 @@
 
 ## LAST SESSION OUTPUT
 
-![6](ramfilesys.png)
+![6](images/ramfilesys.png)
 
 ## File system
 
 Why we need File System ?
 
- ![1](images/2.png)
+ ![1](images/20.png)
 
 - also we need filesystem becuase kernel does not include all of its modules during build there is a lodable modules during time 
 
