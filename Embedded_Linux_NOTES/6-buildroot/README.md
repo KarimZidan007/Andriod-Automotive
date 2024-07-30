@@ -80,27 +80,35 @@ just from config check the required packages
 
 ## Steps 
 
-1. 
+1. Clone from buildroot github
 
 ```sh
+
+git clone https://github.com/buildroot/buildroot
+
+```
+2. 
+```sh
+
+cd buildroot
+
 make list-defconfigs
 
 # Or you can list the files inside 
 ls configs/
 ```
-## for raspberrypi 3 family
+![boards](images/boards.png)
+
+3. use board configurations for raspberrypi-3 family
 
 ```sh
 make raspberrypi3_defconfig
 
 ```
+3. add some configurations
 
 ```sh
-
-cd buildroot
-
 make menuconfig 
-
 ```
 2. choosing type of init process  
 3. choose type of shell
@@ -159,6 +167,49 @@ make
 
 ```
 
+## After building 
+
+```sh
+cd output/images/
+
+ls 
+```
+
+![2](images/out.png)
+
+## HOW TO BOOT raspberrypi using these files?
+
+1. attach your sdcard or usb 
+
+on my case iam using usb , if you using sd card just replace /dev/sda with /dev/mmc0
+
+```sh
+dd if=sdcard.img of=/dev/sda bs=4M status=progress
+```
+**The command dd if=sdcard.img of=/dev/sda bs=4M status=progress writes the sdcard.img image file to the /dev/sda disk, using a block size of 4 megabytes, while showing progress updates. This will overwrite the contents of /dev/sda with the image file,you will find two partitions  making it suitable for use with a Raspberry Pi 3 B+.**
+
+a- boot partition
+
+![2](images/sdcard.png)
+
+1. you have to add the following lines into config.txt
+
+enable_uart=1
+device_tree=bcm2710-rpi-3-b-plus.dtb
+
+
+2. you have to add (rw rootfstype=ext4) to cmdline.txt
+root=/dev/sda2 rw rootfstype=ext4  rootwait console=tty1 console=ttyAMA0,115200 
+
+b- rootfs partition 
+![2](images/rootfs.png)
+
+
+## now attach SDCARD , connect ttl , open picocom
+
+![2](images/boot1.png)
+
+![2](images/boot2.png)
 
 ##  builroot TASK Description
 
@@ -182,3 +233,7 @@ a- Config.n
 b-  makefile && cmake 
 
 c- file.mk 
+
+## you could find the task at this link 
+
+(link)
