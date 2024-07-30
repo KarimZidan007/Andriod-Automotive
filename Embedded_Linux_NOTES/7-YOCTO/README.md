@@ -5,59 +5,49 @@ Started by  **open embedded community**
 
 they build a tool based on python called **bitbake**
 
-CONF ->bitbake->image
+![proc](images/proc.png)
 
-they called CONFIGURATION **metadata**
+- Buildtool input is configuration 
 
-
-
-
+- this CONFIGURATION called **metadata**
 
 
+## HOW TO GET BITBAKE TOOL ?
 
+**from openembedded github**
 
-## HOW TO GET THE TOOL ?
-from openembedded github
-
-##HOW ?
+## HOW ?
 
 ```sh
 mkdir image_generate_dir
 
+cd image_generate_dir
 
-## bit bake tool created by open embbedded community
-git clone bitbake 
-
-
+git clone https://github.com/openembedded/bitbake.git
 ```
 
-## then they create layers 
+## then they create some thing called layer 
 
-those layers contain application 
+those layers contain applications.
 
 ## what if i need python on my image
 
-1. seach for the layer contain these application 
+1. seach for the layer contain this application. 
 
 2. for example it is meta-core 
 
-3. go and get clone for meta-core 
+3. search for it and then clone it 
 
-```sh
-mkdir meta-core
 
-git clone meta-core
-```
+## but what if i want to download the Board Support Packages (kernel,uboot,crosscompiler)
 
-## but what if i want to download the packages that support my board (kernel,uboot,cross,compiler)
-
-**there is a layer has board support packgaes called meta-raspberrypi
+**there is a layer has board support packgaes called meta-raspberrypi**
 
 ```sh 
 
 mkdir meta-rpi
 
-git clone meta-raspberrypi
+git clone https://github.com/agherzan/meta-raspberrypi
 
 ```
 ## so Meta refere to layer 
@@ -70,14 +60,14 @@ git clone meta-raspberrypi
 
 3. at some times we merge two into one layer 
 
-## here there is a problem i don't know what iam doing or how these folder gonna interact with bitbake
+## here there is a problem i don't know how these folders going to interact with bitbake
 
 
-## here YOCTO appears 
+##  Then Yocto Cames and Solve all of these Problems 
 
-what is yocto ?
+## what is yocto ?
 
-- it is a community also it is a reference teach us how to build your own distribution using openembedded 
+- it is a community also it is a reference teach us how to build our own distribution using openembedded buildengine (bitbake) and some layers from them
 
 **yocto started by creating their own layers**
 
@@ -91,12 +81,12 @@ and then they make a repo on github contain the following
 
 2. add to them the most important layers on openembedded like
 
- 
-(meta-core) , 
+ EX :
+    (meta-core) , 
 
-(meta) ,
+    (meta) ,
 
-(meta-skeleton)  -> it is a templete for how to create board support packages
+    (meta-skeleton)  -> it is a templete for how to create board support packages
 
 3. bitbake build engine
 
@@ -115,14 +105,14 @@ BitBake is the build engine used by the Yocto Project and other similar projects
 
 ## Also YOCTO community has provide comptability between bitbake buildengine version and meta-layers 
 
-how ? 
+## how ? 
 
 before yocto if some one clone the following 
 
-1. bitbake (v20)
+1. bitbake (v.20)
 2. meta-core (v.10) 
 
-it generate a problem for sure 
+it going to generate a problem for sure because incomptability of versions between bitbake and meta-layer 
 
 ## HOW YOCTO MADE IT COMPTABLE ?
 
@@ -131,10 +121,11 @@ they did poky branches (releases)
 ex: 
 zeus: Yocto Project 3.0 release. 
 
-so all the contributers that write a meta-layer , they create it depend on comptability with the branch (zeus) 
-so if i want to clone meta-layer i will clone it to comptable with my branch 
+- so all the contributers who create a meta-layer , they create it depend on comptability with the branch like :(zeus) for example
 
-every poky branch it is LTS (LONG TERM SUPPORT UNTILL A SPECIFIC DATA )
+- i want to clone meta-layer i will clone it to comptable with my branch 
+
+- every poky branch it is LTS (LONG TERM SUPPORT UNTILL A SPECIFIC DATE )
 
 ## Most famous poky branches 
 
@@ -154,11 +145,22 @@ every poky branch it is LTS (LONG TERM SUPPORT UNTILL A SPECIFIC DATA )
 
 ## how to clone a layer ? 
 
-1. git clone poky with a krinkstone 
+1. clone poky from the github repo and choose kirkstone branch
 
-2. git clone specific layer 
+![png](images/krinkstone1 .png)
 
-3. git checkout krikstone
+```sh
+# or clone it directly from here 
+git clone git://git.yoctoproject.org/poky 
+
+# if you want to clone only kirkstone 
+
+git clone git://git.yoctoproject.org/poky -b kirkstone
+
+```
+2. git clone (specific layer) 
+
+3. git checkout kirkstone
 
 **if there is a confliction bitbake will notify**
 

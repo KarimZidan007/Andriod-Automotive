@@ -167,10 +167,8 @@ make
 2. push it to git hub as sourcecode
 
 3.  add it on menuconfig checkbox 
+
 ## HOW ?
-
-
-
 
 
 1. modify on this  -> (Kconfig) 
