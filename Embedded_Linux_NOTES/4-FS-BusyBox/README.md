@@ -215,6 +215,9 @@ types of Actions
 5. shutdown -> close application
 
 
+![procfs](images/ttt.png)
+
+
 ## WHAT IS procFS and SysFs
 
 
