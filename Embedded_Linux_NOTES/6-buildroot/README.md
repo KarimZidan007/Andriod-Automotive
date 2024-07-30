@@ -83,6 +83,19 @@ just from config check the required packages
 1. 
 
 ```sh
+make list-defconfigs
+
+# Or you can list the files inside 
+ls configs/
+```
+## for raspberrypi 3 family
+
+```sh
+make raspberrypi3_defconfig
+
+```
+
+```sh
 
 cd buildroot
 
@@ -139,19 +152,12 @@ also like games ->chocholate
 ![lib](images/9.png)
 
 
-```sh
-make list-defconfigs
-
-# Or you can list the files inside 
-ls configs/
-```
-## for raspberrypi 3 family
 
 ```sh
-make raspberrypi3_defconfig
+
+make
 
 ```
-
 
 
 ##  builroot TASK Description
