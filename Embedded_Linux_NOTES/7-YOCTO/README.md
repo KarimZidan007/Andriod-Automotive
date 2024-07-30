@@ -82,6 +82,7 @@ and then they make a repo on github contain the following
 2. add to them the most important layers on openembedded like
 
  EX :
+
     (meta-core) , 
 
     (meta) ,
