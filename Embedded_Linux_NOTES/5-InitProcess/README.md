@@ -192,9 +192,21 @@ switch(runlevel)
 
 etc
 ```
+## Summary of System V Init Process
 
+ ![out](images/Sysv.png)
 
-
+- Kernel initializes and calls init.
+- init reads /etc/inittab.
+- init executes rcS script.
+- rcS mounts filesystems and sets runlevel (e.g., init 5).
+- init reads /etc/inittab for runlevel 5.
+- init calls rc script to handle runlevel transition.
+- rc script stops and starts services based on /etc/rcX.d/.
+- System operates at runlevel 5.
+- User requests runlevel 3 (e.g., init 3).
+- init reads /etc/inittab for runlevel 3.
+- rc script handles transition to runlevel 3 (init proc does not called rcs again because it is sysinit) . 
 
 ## Problem of System V
 
@@ -203,13 +215,11 @@ every thing initialized sequential not parallel even if i have multicores so boo
 
 ## TASK
 
-0. go to systemv repo clone and cross compile
-1. then pass it as the init process init=/sbin/init 
-1. parse inittab 
-2. add to it a new run level 
+
+ add a new run level to system v
 
 ### here is the link of TASK STEPS
-
+()
 
 ## 3-SystemD
 
