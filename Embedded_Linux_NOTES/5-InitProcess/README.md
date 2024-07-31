@@ -1,22 +1,74 @@
 # INIT PROCESS
 
+## WHAT IS INIT PROCESS ?
+
+![out](images/whatisinit.png)
+![out](images/whatisinit1.png)
+![out](images/whatisinit2.png)
+
+```sh
+# it display the process with it's PID
+pstree -p
+```
+
+
+## WHAT IS THE TYPES OF INIT PROCESS ?
+
+![out](images/type.png)
+
+## WHAT IS THE DIFFERENCE BETWEEN THEM
+
+![out](images/diff.png)
+
+
 ## 1-Busybox
 
+![out](images/busybox1.png)
+![out](images/busybox2.png)
+![out](images/busybox3.png)
+
+- you could go back and see how we customized simple busybox init process from here:
+
+(https://github.com/KarimZidan007/Andriod-Automotive/tree/main/Embedded_Linux_NOTES/4-FS-BusyBox)
 
 ## 2-SystemV
 
-there is a runlevels which is equal to mode
+**the busybox init process is just a trimmed version of SystemV**
+
+![out](images/SysV1.png)
+
+
+**runlevels is equal to mode**
 
 ## Common Runlevels and Targets
-0: Halt (shutdown)
-1: Single-user mode
-2: Multi-user mode without network
-3: Multi-user mode without GUI but with network (multi-user.target)
-4: Userdefined
-5: Multi-user mode with GUI (graphical.target)
-6: Reboot
+
+1. `S:Runs startup tasks`
+
+2. `0: Halt (shutdown)`
+
+3. `1: Single-user mode`
+
+4. `2: Multi-user mode without network configurations`
+
+5. `3: Multi-user mode with network (multi-user.target)`
+
+6. `4: Userdefined`
+
+7. `5: Multi-user mode with GUI (graphical.target)`
+
+8. `6: Reboot`
+
+## what is the default run level ?
 
 **mode is used to reduce cpu load on the system**
+![out](images/default.png)
+
+## how to know your current run level ?
+
+```sh
+runlevel
+```
+![out](images/runl.png)
 
 ## SWITCH TO ANOTHER RUNLEVEL
 
@@ -28,7 +80,9 @@ using init command or telinit
 init 5
 
 ```
+## How Runlevels works ?
 
+![out](images/runlev.png)
 
 
 ## Why it is Important for embedded linux ?
@@ -40,49 +94,72 @@ init 5
 2. maintainance mode -> (Flash a new Software , Diagnostic on service center)
 
 
+
+
 ## inittab
+
+![out](images/inittab.png)
+![out](images/inittab2.png)
+![out](images/inittab3.png)
+
 ```sh
 node :runlevel : action :script
 : R 1 2 3 4 5 6: wait :rc
 
 ```
+### rc is the run level handling script ,it is going to be discussed in next lines 
 
+## 1- Creating scripts under /etc/init.d
 
-## 1- go make scripts under /etc/init.d
+![out](images/init.d1.png)
+
+![out](images/init.d2.png)
 
 **NOTE**
-this scripts not the binaries it self it is a scripts just call or kill the tftp from /bin 
+this scripts not the binaries it self it is a scripts just call or kill the application from /bin 
 
 ![out](images/2.png)
 
 **how to write this script. example:**
 
+imagine creating a program named dempapp it forks and runs in background (as a daemon) and we move the binary (demoapp) on /bin we will need an init.d script such as this.
+
 ![out](images/4.png)
 
 ## 2- make runlevel directories under /etc/rc1.d , /etc/rc5.d ..etc
 
-**1- each run level has his own folder**
+**1- each run level has its own folder**
 
 **2- make softlink for required scrips**
 
 ![out](images/3.png)
 
+###to make DemoApp opertional,copy the script to the target directory called /etc/init.d/DemoAPP and make it executable then , add links from each of the run levels you want to run this program from like this example with runlevel 5
 
-Example : if i want to make a mode that disable network ,and enable ssh
+`S -> Start `
+`K -> Kill`
+
+```sh
+cd /etc/init.d/rc5.d
+
+
+ln -s ../init.d/DemoAPP  S11DemoAPP
+
+```
+### the two number following the symbolic link indicate the priority of Starting
+
+
+
+Another Example : if i want to make a mode that disable network ,and enable ssh
 
 1. make softlink for network,ssh on the directory 
 
-S -> Start 
 
 if i want to start a new script on the mode write S before it
-
-K -> Kill
 
 - if i want to kill a running script on the mode write K before it
 
 - add a number after S , K for a priority 
-
-
 
 
 ```sh
@@ -92,17 +169,13 @@ ln -s /etc/init.d/ssh  So2ssh
 ![out](images/5.png)
 
 
-## rc.c
-
 - there is a command check where run level am i 
 
-```sh
 
-runlevel
+## rc script
 
-```
+- it could be devleoped with c ,or as a sh script
 
-rc.c script
 
 ```c
 switch(runlevel)
@@ -120,23 +193,22 @@ switch(runlevel)
 etc
 ```
 
-## and i will go to systemv repo clone and cross compile
 
-then pass it as the init process init=/sbin/init 
-
-1. parse inittab 
-2. add to it run level 
-
-
-same as rcS that we wrote before but add to the columns run level for every action
 
 
 ## Problem of System V
 
-every thing initialized sequential not parallel even if i have multicores
+every thing initialized sequential not parallel even if i have multicores so booting speed is slow
 
 
+## TASK
 
+0. go to systemv repo clone and cross compile
+1. then pass it as the init process init=/sbin/init 
+1. parse inittab 
+2. add to it a new run level 
+
+### here is the link of TASK STEPS
 
 
 ## 3-SystemD
