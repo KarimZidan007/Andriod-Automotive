@@ -196,7 +196,7 @@ git clone git://git.yoctoproject.org/poky -b kirkstone
 
 - Every meta-layer has a variable indicate the comptability with poky branch
 
-![layer](images/layerco.png)
+![layer](images/layer_co.png)
 
 
 ## Variables with yocto 
