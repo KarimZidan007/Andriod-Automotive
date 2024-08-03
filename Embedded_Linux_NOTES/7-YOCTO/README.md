@@ -191,4 +191,263 @@ git clone git://git.yoctoproject.org/poky -b kirkstone
 
 ![layer](images/LayerStucture.png)
 
+------------------------------------------------------------------------
+## LEC2
 
+- Every meta-layer has a variable indicate the comptability with poky branch
+
+![layer](images/layerco.png)
+
+
+## Variables with yocto 
+
+**1. local**
+
+`any files of these extensions contain local variable`
+
+1. .bb
+2. .bbappend
+3. .class
+
+**2. global**
+
+1. .conf
+
+## How to assign Variable 
+
+```sh
+myvar = "string"
+```
+
+## how to read global variable ? 
+
+through bitbake tool
+
+bitbake-getvar (VAR) 
+![layer](images/read1.png)
+![layer](images/read2.png)
+![layer](images/read3.png)
+
+## Variable assignation 
+
+**1. weak assignation**
+
+```sh
+MYVAR="3"
+MYVAR ?="4" 
+
+# MYVAR out will be 3
+
+```
+![layer](images/read4.png)
+![layer](images/read5.png)
+
+
+```sh
+MYVAR ?="3"
+MYVAR ?="4"
+
+# if both are weak MYVAR out will be 3 
+
+```
+
+```sh
+MYVAR="3"
+MYVAR="4" 
+
+#out will be 4
+
+```
+
+
+**2.weak weak assignation**
+
+MYVAR ??=3
+
+eg:
+
+```sh
+MYVAR ??="4"
+MYVAR ?="3"
+
+#bitbake result will be 3 
+#double assignation going to be execute at last of the assignation process if there is no another assignation
+
+```
+
+```sh
+
+MYVAR ??="4"
+MYVAR ??="3" 
+
+#bitbake result 3
+
+```
+
+**3.append**
+
+1. overwriting (notrecommended)
+```sh
+MYVAR="4"
+```
+
+2. appending 
+
+MYVAR +="5" -> "4 5"
+
+MYVAR:append="5" -> "45"
+
+
+![layer](images/ag.png)
+
+![layer](images/ag1.png)
+
+
+```sh
+out will be "5 6"
+```
+
+![layer](images/ag2.png)
+
+
+```sh
+out will be "7"
+```
+3. preappend
+
+MYVAR =+7
+MyVAR:prepend=7
+
+
+
+--------------------
+XAR=3 
+MYVAR="${XAR}"
+XAR="4"
+
+MYVAR WILL be 4 also
+--------------------
+4. immediate assignation (:=)
+
+XAR=3
+MYVAR :="${XAR}"
+XAR="4" 
+MYVAR will be 4
+
+--------------------
+MYVAR ?? ="6"
+XAR := "${MYVAR}
+MYVAR ?? ="7"
+
+```sh
+out will be 6
+```
+--------------------
+MYVAR ? ="6"
+XAR := "${MYVAR}
+MYVAR  ="7"
+
+```sh
+out will be 6
+```
+
+--------------------
+6. append & prepend with dots 
+
+.= append 
+=. prepend
+--------------------
+7. remove 
+
+MYVAR= "3 5 6" 
+
+MYVAR:remove="5" 
+
+```sh
+result ="3 6"
+```
+
+## most common variables in yocto
+
+S -> directory
+B -> directory
+D -> directory
+
+
+1. create a layer (outside of poky and anything related to 1-openembedded 2-thirdparty)
+
+use bitbake-layers to create it
+```sh
+bitbake-layers create-layer ../meta-iti
+```
+![layer](images/create.png)
+
+/conf contain all .conf files 
+
+- contain a file called layer.conf 
+
+![layer](images/create1.png)
+
+- contain comptable version of poky
+
+- and depend on other layer (LAYERDEPENDS)
+
+2. then append my layer to BBFILES 
+BBFILES:append = "${LAYERDIR}"/mylayer-*/*.bb
+
+BBFILES used to find your receipe on your layer
+
+dont forgot space after " 
+
+## how to run receipe ? 
+
+using bitbake
+```sh
+
+bitbake my recipy
+```
+
+if i start to bake will not find myreceipe 
+
+## why ? 
+
+bracuse there is layer paths that bit bake search on it 
+
+so i have to add my layer path on BBLAYER.conf
+
+![layer](images/path.png) 
+**NOTE yocto deals only with absloute path**
+
+or just by a command 
+bitbake-layers add-layer (ABS/PATH)
+
+
+
+## 3- when you add a layer make sure you are on /poky/buildenviroment
+
+
+## 4- run bitbake on your recipe 
+```sh
+bitbake receipe
+```
+
+## one of the important script to (build your own enviroment)
+
+oe-init-build-env
+
+this script create build dir and set enviroments 
+
+
+## TASK 
+1. create an enviroment     
+2. create layer  outside poky
+
+3. create recipe 
+4.  same receipe as screen shot 
+5. edit on display func 
+7. if (variabbbbbbbble==3) -> display hi else variable ==4 display myfriend 
+
+then create on layer.conf variable that i check on the display receipe function
+bb. (thing )
+
+and try it with python
