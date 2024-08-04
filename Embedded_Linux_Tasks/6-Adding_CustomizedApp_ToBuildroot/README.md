@@ -203,7 +203,7 @@ make
 
 ```
 
-## if your already built an image you could choose your package from menuconfig then run this command
+## if you are already built an image you could choose your package from menuconfig then run this command
 
 ```sh
 
