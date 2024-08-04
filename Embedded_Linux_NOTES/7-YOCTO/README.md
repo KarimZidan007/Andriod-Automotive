@@ -393,8 +393,9 @@ bitbake-layers create-layer ../meta-iti
 - and depend on other layer (LAYERDEPENDS)
 
 2. then append my layer to BBFILES 
-BBFILES:append = "${LAYERDIR}"/mylayer-*/*.bb
+BBFILES:append = " ${LAYERDIR}"/mylayer-*/*.bb
 
+![layer](images/addbbpath.png)
 BBFILES used to find your receipe on your layer
 
 dont forgot space after " 
@@ -404,7 +405,7 @@ dont forgot space after "
 using bitbake
 ```sh
 
-bitbake my recipy
+bitbake (myrecipy)
 ```
 
 if i start to bake will not find myreceipe 
@@ -445,7 +446,7 @@ this script create build dir and set enviroments
 3. create recipe 
 4.  same receipe as screen shot 
 5. edit on display func 
-7. if (variabbbbbbbble==3) -> display hi else variable ==4 display myfriend 
+7. if (variable==3) -> display hi else variable ==4 display myfriend 
 
 then create on layer.conf variable that i check on the display receipe function
 bb. (thing )
