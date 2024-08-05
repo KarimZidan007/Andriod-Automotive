@@ -241,7 +241,9 @@ exit 0
 
 ## here the file after switching the daemon 2 has been killed and daemon 4 has started 
 
-
+```sh
+vi /output
+```
 
 ![1](images/33.png)
 
