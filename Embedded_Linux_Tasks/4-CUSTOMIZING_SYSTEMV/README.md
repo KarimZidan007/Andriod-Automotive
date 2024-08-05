@@ -85,17 +85,18 @@ exit $?
 ```
 
 
-## 3. then make symbolic links to this scripts on rc2.d , rc4.d
+## 3. then make symbolic links to those scripts on rc2.d , rc4.d
 
 - now lets make symbolic links to both scripts 
 
--on run level 2 (start daemon of run level 2 , kill daemon of run level 4)
+- on run level 2 (start daemon of run level 2 , kill daemon of run level 4)
 
 - on run level 4 (start daemon of run level 4, kill daemon of run level 2) 
 
 ![1](images/symblink.png)
 
-example
+`example`
+
 ```sh
 
 cd /etc/rc2.d
