@@ -12,7 +12,7 @@
 
 1. `commands`
 
-![pic](images/archofsysd.svg)
+![pic](images/1.Software Architecture.svg)
 
 
 2. Units 
@@ -106,17 +106,17 @@ what information that .service file (unit) contain ?
 
 - `KillMode` -> if it equal to process-group (kill all)
 
-Restart = ex: on-failure
+- `Restart` = ex: on-failure
 
 ![pic](images/restarttable.png)
 
-Type=notify  -> the forked child service notify the systemd that proc has started or finished
+- `Type` =notify  -> the forked child service notify the systemd that proc has started or finished
 
 
-Runtimedirectory = directory under /run ithink it is on ram
+- `Runtimedirectory` = set directory under /run 
 
-Runtimedirectorymode=permission
-
+- `Runtimedirectorymode` = permission for this directory
+ 
 ## Dependencies
 
  Wants= (weak requirement dependency)
