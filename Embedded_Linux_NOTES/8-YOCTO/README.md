@@ -396,6 +396,7 @@ bitbake-layers create-layer ../meta-iti
 BBFILES:append = " ${LAYERDIR}"/mylayer-*/*.bb
 
 ![layer](images/addbbpath.png)
+
 BBFILES used to find your receipe on your layer
 
 dont forgot space after " 
@@ -412,7 +413,7 @@ if i start to bake will not find myreceipe
 
 ## why ? 
 
-bracuse there is layer paths that bit bake search on it 
+because there is layer paths that bit bake search on it 
 
 so i have to add my layer path on BBLAYER.conf
 

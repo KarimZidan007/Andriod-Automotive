@@ -9,15 +9,16 @@
 
 4. then create on layer.conf variable that i check on the display receipe function  
 
+5. add the layer to bblayers.conf 
 
-5. edit on display func
+6.  append recipe path to  layer.conf 
 
-6. check if (variable==3) -> display KARIM else variable ==4 display ZIDAN
+7. edit on display func
+
+8. check if (variable==3) -> display KARIM else variable ==4 display ZIDAN
 
 
-## to enable display on terminal you have to add this line to your receipe
 
-`inherit logging`
  
 
 ## STEPS
@@ -41,6 +42,10 @@ touch karim.bb`
 vim karim.bb
 
 ```
+## to enable display on terminal you have to add this line to your receipe
+
+`inherit logging`
+
 ![layer](images/bb.png)
 
 4. 
@@ -54,7 +59,17 @@ vim layer.conf
 ```
 ![layer](images/layer.conf.png)
 
+5. add layer on bblayer.conf
 
+```sh
+cd poky/build/conf
+
+vim bblayers.conf
+
+```
+
+## add your path as absloute path
+![layer](images/bblayer.png)
 
 5. go back to poky 
 
