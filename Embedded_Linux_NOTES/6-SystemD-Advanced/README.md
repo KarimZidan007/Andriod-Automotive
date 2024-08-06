@@ -25,12 +25,13 @@ What is Units-> files .
 ------------------------------------------------------------
 
 ## how to know the path where binary located ? 
+
 ```sh
 ## where this process located in mydisk
 sudo realpath /proc/1/exe 
 ```
 
-
+                                                                                                        
 ------------------------
 
 systemD (init) -> read system.conf (/lib/systemd) -> then make a booting sequence in parallel (load drivers or nozzles) , (run process)/services 
