@@ -32,6 +32,7 @@ dev_t mydev_id;
 
 char buffer[BUFF_SIZE]; -> minor
 char buffer2[BUFF_SIZE]; ->mahor 
+
 how to allocate ID ?
 
 by a function provided bykernel 
