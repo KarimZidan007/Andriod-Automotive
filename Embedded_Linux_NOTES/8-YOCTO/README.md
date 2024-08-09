@@ -403,14 +403,6 @@ BBFILES used to make bitbake find receipes on your layer
 
 dont forgot space after " 
 
-or just add the abloute layer path at this file **bblayer.conf** 
-
-
-`/poky/build/conf/bblayer.conf`
-
-- ADD IT ON BBLAYER variable
-
-![layer](images/add.png)
 
 
 
