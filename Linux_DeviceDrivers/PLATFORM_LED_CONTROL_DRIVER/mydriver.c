@@ -30,10 +30,11 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zidan");
 MODULE_DESCRIPTION("A Simple Kernel Module");
 
-//////////////////////////////probe///////////////////////////////
+//probe fuction (called everytime a LED device is connected on platform bus )
 int prob_device(struct platform_device *LED)
 {
     printk("%s device detected\n", LED->name);
+    //if LED1 device is detected
     if (strcmp(LED->name, "LED1 ") == 0)
     {
         if (gpio_request(2, "FOR LED1"))
@@ -55,7 +56,7 @@ int prob_device(struct platform_device *LED)
             printk("gpio 2 allocate successfully\n");
         }
 
-        //////////////////3////////////////////
+//if LED2 device is detected
     }
     else if (strcmp(LED->name, "LED2") == 0)
     {
@@ -77,6 +78,7 @@ int prob_device(struct platform_device *LED)
             printk("gpio 3 allocate successfully\n");
         }
     }
+    //create the device under /sys/class/ and then mount it under /dev
 
     if (NULL == device_create(iti_class, NULL, mydevice_id + LED->id, NULL, LED->name))
     {
@@ -88,29 +90,33 @@ int prob_device(struct platform_device *LED)
     }
     return 0;
 }
-//////////////////////////////////file operations/////////////////////////////////
+// invoked when device removed from bus (unloaded rmmod ) 
 
 int device_remove(struct platform_device *LED)
 {
+    //handle device LED1
     if (strcmp(LED->name, "LED1") == 0)
     {
         gpio_set_value(2, 0);
         gpio_free(2);
     }
+    //handle device LED2
     else if (strcmp(LED->name, "LED2") == 0)
     {
         gpio_set_value(3, 0);
         gpio_free(3);
     }
+    //destroy the device under /dev , /sys/class/iti_class2
     device_destroy(iti_class, mydevice_id + LED->id);
     return 0;
 }
 
-//////////////////////////////////file operations/////////////////////////////////
+//the devices that going to be responsibled by the driver on the platform bus
 struct platform_device_id device_id[2] = {
     [0] = {.name = "LED1"},
     [1] = {.name = "LED2"}};
 
+// data for the driver (prob function ptr , remove function ptr)
 struct platform_driver platform_driver_data = {
     .probe = prob_device,
     .remove = device_remove,
@@ -123,10 +129,12 @@ struct platform_driver platform_driver_data = {
 
 int driver_open(struct inode *device_file, struct file *instance)
 {
-    printk("Open Was called\n");
+  
     int minor = MINOR(device_file->i_rdev);
     int major = MAJOR(device_file->i_rdev);
     instance->private_data = &minor;
+    printk("Opened device with major number %d and minor number %d\n", major, minor);
+
     return 0;
 }
 
@@ -138,18 +146,22 @@ int driver_close(struct inode *device_file, struct file *instance)
 
 ssize_t driver_read(struct file *file, char __user *userr, size_t count, loff_t *)
 {
-    // return 0 to stop the read because the count dont stop
-    printk("Read Was called\n");
-    return 0;
+
+    printk("Read Function has been Invoked\n");
+
+    // This driver is designed for output operations only (e.g., controlling GPIO pins).
+    // Read operations are not supported, so we return -ENOSYS to indicate that the
+    // function is not implemented or not applicable.
+    return -ENOSYS;
 }
 
 ssize_t driver_write(struct file *file, const char __user *userr, size_t count, loff_t *)
 {
 
-    printk("Write Called\n");
+    printk("Write function has been Called\n");
     char(*value)[3] = NULL;
     int not_copied;
-
+    //determine the device based  on minor number i set it based on operation happened on (driver_opened) function
     if (*(int *)file->private_data == 0)
     {
         value = &led1;
@@ -160,27 +172,41 @@ ssize_t driver_write(struct file *file, const char __user *userr, size_t count, 
         value = &led2;
         Status = LED2;
     }
-    // this function copy from userspace memory to kernel memory because i can not handle this operation by my self
-    // if i copy data from user buff to my own buff i need to move all the count data if i cp only 8 out of 9 it will be entered again untill the move all 9
-    // this function return
+
+// This function (copy_from_user) copies data from user space memory to kernel space memory.
+// Direct access to user space from the kernel is unsafe and may lead to security vulnerabilities,
+// so we use it to safely perform this operation.
+//
+// The function handles copying `count` bytes of data from the user space buffer (`userr`) 
+// to the kernel space buffer (`value`). If only part of the data can be copied due to
+// user space memory issues or other errors, `copy_from_user` will return the number of bytes
+// that could not be copied. A return value of 0 indicates success, meaning all requested data
+// was copied successfully.
+//
+// Example: If `count` is 9 bytes but only 8 bytes are successfully copied due to an error,
+// `copy_from_user` will return 1 (the number of bytes not copied). The kernel should handle
+// this situation by checking the return value and managing the error appropriately.
 
     not_copied = copy_from_user(value, userr, 3);
     switch (*value[0])
     {
     case '0':
-        gpio_set_value(Status, 0);
+
         printk("led OFF");
+        gpio_set_value(Status, 0);
         break;
     case '1':
-        gpio_set_value(Status, 1);
         printk("led ON");
+        gpio_set_value(Status, 1);
         break;
     default:
         printk("Invalid input\n");
         break;
     }
+    //this function will be recursivly invoked untill succesfully writing so i want to adjust the count based on the unsuccfull data copying
+    count =count -not_copied;
 
-    return 0;
+    return count;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
