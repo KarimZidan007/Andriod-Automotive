@@ -30,11 +30,11 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zidan");
 MODULE_DESCRIPTION("A Simple Kernel Module");
 
-//probe fuction (called everytime a LED device is connected on platform bus )
+// probe fuction (called everytime a LED device is connected on platform bus )
 int prob_device(struct platform_device *LED)
 {
     printk("%s device detected\n", LED->name);
-    //if LED1 device is detected
+    // if LED1 device is detected
     if (strcmp(LED->name, "LED1 ") == 0)
     {
         if (gpio_request(2, "FOR LED1"))
@@ -56,7 +56,7 @@ int prob_device(struct platform_device *LED)
             printk("gpio 2 allocate successfully\n");
         }
 
-//if LED2 device is detected
+        // if LED2 device is detected
     }
     else if (strcmp(LED->name, "LED2") == 0)
     {
@@ -78,7 +78,7 @@ int prob_device(struct platform_device *LED)
             printk("gpio 3 allocate successfully\n");
         }
     }
-    //create the device under /sys/class/ and then mount it under /dev
+    // create the device under /sys/class/ and then mount it under /dev
 
     if (NULL == device_create(iti_class, NULL, mydevice_id + LED->id, NULL, LED->name))
     {
@@ -90,28 +90,28 @@ int prob_device(struct platform_device *LED)
     }
     return 0;
 }
-// invoked when device removed from bus (unloaded rmmod ) 
+// invoked when device removed from bus (unloaded rmmod )
 
 int device_remove(struct platform_device *LED)
 {
-    //handle device LED1
+    // handle device LED1
     if (strcmp(LED->name, "LED1") == 0)
     {
         gpio_set_value(2, 0);
         gpio_free(2);
     }
-    //handle device LED2
+    // handle device LED2
     else if (strcmp(LED->name, "LED2") == 0)
     {
         gpio_set_value(3, 0);
         gpio_free(3);
     }
-    //destroy the device under /dev , /sys/class/iti_class2
+    // destroy the device under /dev , /sys/class/iti_class2
     device_destroy(iti_class, mydevice_id + LED->id);
     return 0;
 }
 
-//the devices that going to be responsibled by the driver on the platform bus
+// the devices that going to be responsibled by the driver on the platform bus
 struct platform_device_id device_id[2] = {
     [0] = {.name = "LED1"},
     [1] = {.name = "LED2"}};
@@ -129,7 +129,7 @@ struct platform_driver platform_driver_data = {
 
 int driver_open(struct inode *device_file, struct file *instance)
 {
-  
+
     int minor = MINOR(device_file->i_rdev);
     int major = MAJOR(device_file->i_rdev);
     instance->private_data = &minor;
@@ -161,7 +161,7 @@ ssize_t driver_write(struct file *file, const char __user *userr, size_t count, 
     printk("Write function has been Called\n");
     char(*value)[3] = NULL;
     int not_copied;
-    //determine the device based  on minor number i set it based on operation happened on (driver_opened) function
+    // determine the device based  on minor number i set it based on operation happened on (driver_opened) function
     if (*(int *)file->private_data == 0)
     {
         value = &led1;
@@ -173,19 +173,19 @@ ssize_t driver_write(struct file *file, const char __user *userr, size_t count, 
         Status = LED2;
     }
 
-// This function (copy_from_user) copies data from user space memory to kernel space memory.
-// Direct access to user space from the kernel is unsafe and may lead to security vulnerabilities,
-// so we use it to safely perform this operation.
-//
-// The function handles copying `count` bytes of data from the user space buffer (`userr`) 
-// to the kernel space buffer (`value`). If only part of the data can be copied due to
-// user space memory issues or other errors, `copy_from_user` will return the number of bytes
-// that could not be copied. A return value of 0 indicates success, meaning all requested data
-// was copied successfully.
-//
-// Example: If `count` is 9 bytes but only 8 bytes are successfully copied due to an error,
-// `copy_from_user` will return 1 (the number of bytes not copied). The kernel should handle
-// this situation by checking the return value and managing the error appropriately.
+    // This function (copy_from_user) copies data from user space memory to kernel space memory.
+    // Direct access to user space from the kernel is unsafe and may lead to security vulnerabilities,
+    // so we use it to safely perform this operation.
+    //
+    // The function handles copying `count` bytes of data from the user space buffer (`userr`)
+    // to the kernel space buffer (`value`). If only part of the data can be copied due to
+    // user space memory issues or other errors, `copy_from_user` will return the number of bytes
+    // that could not be copied. A return value of 0 indicates success, meaning all requested data
+    // was copied successfully.
+    //
+    // Example: If `count` is 9 bytes but only 8 bytes are successfully copied due to an error,
+    // `copy_from_user` will return 1 (the number of bytes not copied). The kernel should handle
+    // this situation by checking the return value and managing the error appropriately.
 
     not_copied = copy_from_user(value, userr, 3);
     switch (*value[0])
@@ -203,8 +203,8 @@ ssize_t driver_write(struct file *file, const char __user *userr, size_t count, 
         printk("Invalid input\n");
         break;
     }
-    //this function will be recursivly invoked untill succesfully writing so i want to adjust the count based on the unsuccfull data copying
-    count =count -not_copied;
+    // this function will be recursivly invoked untill succesfully writing so i want to adjust the count based on the unsuccfull data copying
+    count = count - not_copied;
 
     return count;
 }

@@ -393,17 +393,31 @@ bitbake-layers create-layer ../meta-iti
 - and depend on other layer (LAYERDEPENDS)
 
 2. then append my layer to BBFILES 
-BBFILES:append = " ${LAYERDIR}"/mylayer-*/*.bb
 
-![layer](images/addbbpath.png)
 
-BBFILES used to find your receipe on your layer
+`BBFILES:append = " ${LAYERDIR}"/mylayer-*/*.bb`
+
+
+
+BBFILES used to make bitbake find receipes on your layer
 
 dont forgot space after " 
+
+or just add the abloute layer path at this file **bblayer.conf** 
+
+
+`/poky/build/conf/bblayer.conf`
+
+- ADD IT ON BBLAYER variable
+
+![layer](images/add.png)
+
+
 
 ## how to run receipe ? 
 
 using bitbake
+
 ```sh
 
 bitbake (myrecipy)
@@ -418,10 +432,15 @@ because there is layer paths that bit bake search on it
 so i have to add my layer path on BBLAYER.conf
 
 ![layer](images/path.png) 
+
+
+
 **NOTE yocto deals only with absloute path**
 
 or just by a command 
-bitbake-layers add-layer (ABS/PATH)
+
+
+`bitbake-layers add-layer (ABS/PATH)`
 
 
 
