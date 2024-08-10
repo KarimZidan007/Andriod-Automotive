@@ -6,14 +6,22 @@ int main()
     int Sum = 0;
     int Avg = 0, Max = 0, Min = 0, No_Val = 0;
     std::string str;
+
     std::fstream file_input;
     std::fstream file_output;
+    // open the file F_INPUT as input (read ) , out (write) , app (append) modes
     file_input.open("F_INPUT.txt", std::ios::in | std::ios::out | std::ios::app);
+    //read the first line of the file on the str var
     std::getline(file_input, str);
+    // convert str into integer and load it on max , min variables
+
     Min = Max = std::stoi(str);
+    //return back the file pointer to the beginning of the file 
     file_input.seekg(0, std::ios::beg);
+    //read the file line by line
     while (file_input.eof() == false)
     {
+        
         std::getline(file_input, str);
         Sum += std::stoi(str);
         No_Val++;
