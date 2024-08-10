@@ -577,6 +577,8 @@ so every local variable parse its value
 
 i could append all the expandables on a file .txt and use it to customize my task
 
+`bitbake -e recipe > trace.txt` 
+
 **bitbake takes all the variables in recipe and generate python command with hidden variables setted by bitbake itself**
 
 ## HOW TO WRITE A RECIPE
@@ -630,6 +632,8 @@ so i will make an install bash task
 do_install()
 {
     mkdir -p ${D}/usr/bin
+
+
     cp ${B}/myapp ${D}/usr/bin
 }
 
