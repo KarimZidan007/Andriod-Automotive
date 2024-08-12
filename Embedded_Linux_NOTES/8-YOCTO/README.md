@@ -697,3 +697,236 @@ GLOBALVAR =$(SRC_URL):another data
 
 
 
+## Lecture 4
+
+### how to find the local variable through bitbake-getvar ?
+
+`bitbake-getvar -r (recipe name) (variable)`
+
+**BBPATH : indicate the path for classes for layer it is on layer.conf**
+
+## DISCUSSION ABOUT DOCUMENTATION.CONF file
+
+- it is the most important file in yocto
+`/home/karimzidantech/yocto/poky/meta/conf`
+
+- provide alot of information about VARIABLES IN YOCTO
+
+## DISCUSSION ABOUT LOCAL.CONF
+
+- **it contain MACHINE variable -> to which board or soc iam going to build the hardware dependent packages**
+
+- **NOTE braglebone is most supported board from yocto search on (beaglebone-yocto.conf)**
+
+- **so iam going to write a .conf file which has all the machine conf under my layer/conf/machine/include like beaglebone-yocto.conf (BSP layer)****
+
+- **on my layer i will include the application and bsp recipes together , i could make two layers under the main layer**
+
+- **any package that change from arch to another arch i set it on boardsupportpackages**
+
+- **if i want to build more than image with diff configuration i could make a new WORKDIR and change WORKDIR on a recipe , or just pull the sstate folder and downloads out and start build again to use the dependencies that i download before**
+## IMPORTANT NOTE (YOCTO IS ALL ABOUT SETTING VARIABLES)
+
+## IMPORTANT VARIABLES
+
+- **SSTATE_DIR-> store info about the tasks that has already runned and finished , so if i rebitbake it is not start from beggining again it is on local.conf** 
+
+
+- **TMDIR -> WORKING DIRECTORY FOR APP RECIPES**
+
+- **Deploy -> image**
+
+- **DISTRO -> (NAME OF DISTRIBUTION)**
+
+- **1-ihave to create conf file for disto on this dest meta-layer/conf/distro/NAMEOFDISTRO.conf**
+
+- **2-i could include meta-poky/conf/distro/poky.conf then add my changes**
+
+![alt text](images/distro.png)
+
+ - **what is difference between distros?**
+1. package manager supported by yocto
+
+    a.ipk 
+
+    b.apt
+
+    c.rpm
+
+
+2.library
+
+    a.musl
+
+    b.glibc
+
+
+3. init process
+
+    a.busybox
+
+    b.systemd 
+
+    c.systemv
+
+------------------------------------------------------------------------------
+
+- **PACKAGE_CLASSES ?= type of package i want it as an ouput**
+![alt text](images/rpm.png)
+
+
+- **so i could share it with any one with my same packagemanager and mymachine type**
+
+
+------------------------------------------------------------------------------
+
+
+
+- **BB_DISKMON_DIRS -> this is used to set the disk space for the build process**
+
+------------------------------------------------------------------------------
+
+
+- **CONF_VERSION -> VERSION OF MY local.conf**
+
+------------------------------------------------------------------------------
+
+-**INHERIT -> i could set this to minimize the size of image
+![alt text](images/ji.png)
+------------------------------------------------------------------------------
+
+- **Patchresolve = "noop" or "user" -> if i made it user it will print error on terminal and then open anew terminal to resolve my problem then it will continute**
+------------------------------------------------------------------------------
+## types of metadata
+1. .conf files
+
+
+2. reciepe (.bb)
+
+
+3. recipe.bbappend 
+
+- it is used to extend functionality to existing recipe
+
+- naming conventions for .bbappend
+
+![alt text](images/jk.png)
+
+**NOTE - if i have 3 recipes with different versions -> bitbake will parse the latest version**
+
+**NOTE - if i have 3 recipes with same versions -> bitbake will parse the highest priority recipe**
+
+![alt text](images/busybox.png)
+
+
+- on another layer there is busybox-append
+
+![alt text](images/append.png)
+
+- **append file will add to the original file**
+
+
+
+another EX:
+
+![alt text](images/EXX.png)
+
+-**NOTE on append file**
+
+-adding append to function
+
+![alt text](images/ppend.png)
+
+
+
+------------------------------------------------------------------------------
+
+## BBClass
+
+-> (launch function in background)
+
+
+
+->any thing got inherited is a  (class)
+
+- prepare the envioment for a specific functionallity 
+
+- like inherit cmake -> download it and configure it , install and make it sutiable for use on my recipe 
+
+
+INHERIT=SYSTEMD
+
+
+![alt text](images/impp.png)
+
+------------------------------------------------------------------------------------
+## how this outputs gonna be installed on rootfilesystem ?
+- **IMAGE_BBCLASS -> configure the rootfilesystem**
+
+**NOTE-> this one is maindatory**
+
+- **IMAGE_INSTALL -> install package into rootfilesystem
+- **IMAGE_INSTALL:append =" myrecipe"  
+
+![alt text](images/installconf.png)
+
+poky/build/conf/local.conf
+
+## if you want to download the qt5 , add it layer , checkout to kirkstone , then downloaded the dependencies layers , bitbake receipe 
+
+
+![alt text](images/custt.png)
+
+## READ about package feeder
+
+------------------------------------------------------------------------------
+## TASK
+
+![alt text](images/taskss.png)
+
+## STEPS
+
+
+- make it like this
+
+`"file://main.c \"`
+because iam going to SRC_URI the service.service also
+
+![alt text](images/step2.png) 
+
+
+
+![alt text](images/step1.png)
+
+
+## then create a service file
+
+
+
+## append it to /etc/systemd/system
+
+using this 
+![alt text](images/sysd.png)
+
+
+## on do_install append
+
+![alt text](images/doins.png)
+
+## check build/expand 
+
+## TASK
+
+1. image -> rpi 
+2.create layer
+3. create conf/ 
+
+4. create distro 
+
+5. almaza.conf (include poky.conf , edit some info)
+
+6. create recipe (ping on my computer ip , if successfull -> led off , if ping off(led on ) )
+
+
+## how to on led ?
+led on /sys/class/gpio 
