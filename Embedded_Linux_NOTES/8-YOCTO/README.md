@@ -473,18 +473,19 @@ then create on layer.conf variable that i check on the display receipe function
 
 ## HOW TO WRITE a RECIPE ?
 
-## 1. start by header section
+ ### A. start by header section
 
-## 1. SUMMARY 
+**1. SUMMARY** 
 
-## 2. DESCRIPTION
+**2. DESCRIPTION**
 
-## 3. HOMEPAGE 
-they are not maindatory
+**3. HOMEPAGE** 
 
-## 4. LICENCE
+### they are not maindatory
 
-## 5. LIC-FILES-CHKSUM
+**4. LICENCE**
+
+**5. LIC-FILES-CHKSUM**
 
 `LICENCE Purpose`: Specifies the licensing terms for the software in the recipe.
 
@@ -518,7 +519,7 @@ LIC_FILES_CHKSUM = "file://path/to/license/file;md5=checksum_value"
 
 ## 6. SRC_UAI VARIABLE
 
-1. it is a local variable
+1. it is a local variable 
 2. responsible to clone files into `dl` directory 
 
 ## how to use it to clone from git?
@@ -529,9 +530,9 @@ SRC_URI="git://<repo_link>,protocole=`https`,branch=`main`"
 
 ## how to use it locally ?
 
-SRC_URI ="file://main.c" 
-
 **NOTE: it depends (it should be set at special place)** 
+
+there is a LOCAL variable called **FILESPATH** 
 
 
 ## 7.SRCREV 
@@ -590,7 +591,7 @@ remove everything Under WORKING DIRECTORY
 
 
 ## LIST ALL tasks for a recipe
-`bitbake listall reciepe`
+`bitbake listall (reciepe-name)`
 - you will find all tasks that bitbake will generate it for you 
 
 
@@ -697,7 +698,7 @@ GLOBALVAR =$(SRC_URL):another data
 
 
 
-## Lecture 4
+# Lecture 4
 
 ### how to find the local variable through bitbake-getvar ?
 
@@ -792,6 +793,8 @@ GLOBALVAR =$(SRC_URL):another data
 ------------------------------------------------------------------------------
 
 -**INHERIT -> i could set this to minimize the size of image
+
+
 ![alt text](images/ji.png)
 ------------------------------------------------------------------------------
 

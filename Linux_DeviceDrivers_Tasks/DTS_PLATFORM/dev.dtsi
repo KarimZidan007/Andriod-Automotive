@@ -1,0 +1,13 @@
+
+
+/{
+    zidan_led1{
+        compatible="ZIDAN,LED1";
+        status= "okay";   
+        label="redled_1";
+        led_value=<1>;
+        gpio_pin=<2>;
+        buff_size=<3>;
+        perm=<0x11>;
+        };
+}
