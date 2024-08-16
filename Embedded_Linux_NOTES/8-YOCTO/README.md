@@ -933,3 +933,148 @@ using this
 
 ## how to on led ?
 led on /sys/class/gpio 
+
+
+# LEC 5
+
+how to design layer ?
+![alt text](images/image.png)
+
+
+- what if i want to build a kernel module through yocto and include it with build ?
+
+i could use meta-skelton provided skelton for building kernelmod
+
+![alt text](images/image-1.png)
+
+## if i want to search at more than a path recommended to use this 
+
+![alt text](images/image-2.png)
+
+## PATCHING
+
+- create a patch file to modify in source file (loading address for example)
+
+- patch file has an extension of .patch
+
+if i have source file and i make a change on the src 
+
+`git diff main > file.patch` , now i have a patch file 
+
+`git apply     .patch`
+
+## how yocto apply patching ?
+
+1. using SRC_URI to clone patch
+2. patch contain all info required for src file 
+
+
+## DEPENDENCIES ON RECIPES 
+
+-**if i have a receipe calulator depend on another recipe i have to add this**
+![alt text](images/image-3.png)
+
+- **bitbake take output of DEPEND RECEIPE into your recipe**
+
+## i could make some thing like alias on DEPENDENCES 
+1. depend on recipe it self 
+2. depend on output of the receipe
+
+### both could be used on that way
+![alt text](images/image-4.png)
+
+**start by script that PROVIDE then the script that Depends on Provider**
+
+## RUNTIME PROVIDES
+
+## RDEPENDS 
+
+`RDEPENDS` -> depends on a package on runtime so bitbake by default will send this package into myimage 
+
+
+
+
+## TASK (MAKE A LAYER CONTAIN BSP AND APPLICATION) and push it to github
+
+------------------------------------------------------------------------
+Yocto by deafult -> SystemV
+
+how to add Systemd ? 
+**DISTRO_FEATURE**
+
+------------------------------------------------------------------------
+
+
+**write this on conf for distro**
+if systemd with DISTRO FEATURES extend the rootfs space by 4GB
+![alt text](images/image-5.png)
+
+------------------------------------------------------------------------
+
+my image will boot with systemv , if iwant to switch into systemd through 
+
+
+![alt text](images/image-7.png)
+
+`DISTRO_FEATURES:append = " systemd"`
+
+**add this to almaza.conf**
+
+![alt text](images/image-9.png)
+
+------------------------------------------------------------------------
+1.create recipes-image/image 
+
+2.create myimage.bb
+
+3. add this to it 
+
+![alt text](images/image-10.png)
+
+# SO ALL I MODIFY IN LOCAL.CONF IS (MACHINE ,DISTRO)
+
+
+
+------------------------------------------------------------------------
+## TASK
+1.c0re-image-minimal -> it starts with terminal
+
+2.core-image-sato -> GUI
+## sato difference between minimal
+
+![alt text](images/image-11.png)
+
+3. core-image-westron 
+
+------------------------------------------------------------------------
+
+1. write QT APP on version QT5 
+
+2. start this QT on host-machine 
+
+3. write a recipe to start this hello application 
+
+------------------------------------------------------
+
+how ? 
+
+i need a XServer  - qt5-layer required recipes not all recipes  like qt-base 
+![alt text](images/image-12.png) (hint and add)
+
+
+
+4. my own recipe (qt application) (download config build install)
+
+to build i need to 
+
+`inherit qt (maybe-search for it)`
+`inherit qmak5-base` 
+
+
+4. include this recipe on IMAGE_INSTALL variable 
+
+
+5. upgrade QT GUI add button to led on ,led off 
+
+
+## make sure i add this INHERIT ="rm_work"

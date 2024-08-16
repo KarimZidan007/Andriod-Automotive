@@ -20,6 +20,8 @@
 
  ![alt text](image-3.png)
 
+**5.on local.conf add on IMAGE_INSTALL our package**
+
 ## STEP 3 (CREATE YOUR SCRIPT)
 
 ```bash
