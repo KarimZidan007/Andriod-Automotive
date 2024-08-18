@@ -1078,3 +1078,58 @@ to build i need to
 
 
 ## make sure i add this INHERIT ="rm_work"
+---------------------------------------
+![alt text](image.png)
+
+the process of baking
+**OPEN BUILD DIRECTIOR/CONF**
+1- READ MACHINE CONF EX:(raspberrypi3) -> search for raspberrypi3.conf 
+
+2- READ DISTO CONF from local.conf -> if DISTRO IS = "almaza" -> search for "almaza.conf"
+
+3- LOAD THEM INTO DICTIONARY DIRECTORY 
+
+4- search for core-image-minimal.bb
+
+```sh
+find . -name "core-image-minimal.bb"
+./meta/recipes-core/images/core-image-minimal.bb
+```
+
+![alt text](image-1.png)
+
+
+**WHAT IS DATA DICTIONARY**
+![alt text](image-2.png)
+
+**ANY FILE.conf has global variables**
+
+
+## LAYERS OPERATIONS
+
+![alt text](image-3.png)
+
+- there is no delete layer operation so i will do it as an alias
+
+![alt text](image-4.png)
+
+## creating a sd bootable image direct through this command 
+
+`sudo wic create sdimage-raspberrypi -e ${IMAGE-NAME}`
+
+
+## Types of Recipes 
+
+![alt text](image-6.png)
+
+## Operations on Recipes
+
+![alt text](image-7.png)
+
+## Create recipe using recipe tool 
+
+`recipetool create -o (recipename.bb) (src link)`
+
+
+
+
