@@ -241,8 +241,15 @@ QB_MEM:qemumips = "-m 256"
 add rpi-sdimg to get a bootable sd card image
 
 
-8- after customize our layers , lets build
 
+8- go to /poky/"build-dir-name"/conf/local.conf
+
+make MACHINE="raspberrypi3" 
+
+DISTRO="zidan" (your distro name same as the file.conf we created on our meta-distro/conf/distro/)
+
+
+9- after customize our layers , lets build
 ```bash
 
 source oe-init-build-env zidan-image
