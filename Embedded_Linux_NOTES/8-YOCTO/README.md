@@ -1079,6 +1079,69 @@ to build i need to
 
 ## make sure i add this INHERIT ="rm_work"
 ---------------------------------------
+## to list tasks use bitbake -c core-image-minimal listtasks
+
+there is tasks if i want to use it i have to use it explicitly 
+
+1. do-populate-sdk
+
+2- do-populate-sdk.ext
+
+two tasks to generate SDK
+
+## to run more tasks with bitbake 
+`bitbake core-image-minimal  -c listtasks`
+
+listtasks are a tasks called do_listtasks
+
+to explicitly generate SDK 
+
+1- bitbake core-image-minimal -c  populate-task 
+
+2- `cd /build/tmp/deploy/sdk`
+
+3- you will find .sh script that responsible to create sdk
+
+4- --help on it and you will find this (./sh -d (SDK DIR))
+
+5- you will find bashscript called enviroment-setup-cortex53- 
+
+
+
+1- SDK is used for generate DEBUGGING SYMBOLS for the recipes 
+
+2- CREATE ENVIRONMENT ( i could build an application with it is make file that i wrote for x86 to work on arm) then use scp to move it to raspberrypi for example (with out creating recipe for it and build the image again)
+
+
+## devtool,recipe tool 
+
+automated writing for recipes 
+
+
+it will create workspace-layer and add it to bblayer directly 
+
+
+- `devtool deploy "recipe" IP `
+
+1- COMPILE
+2- deploy it using scp 
+
+`devtool add URI`
+
+manifest -> file has all the builded recipe versions
+
+
+
+
+## if we gonna build JAVA APPLICATION we have to RDEPENDS="JVM"
+
+
+
+
+
+
+
+---------------------------------------
 ![alt text](image.png)
 
 the process of baking
@@ -1129,6 +1192,7 @@ find . -name "core-image-minimal.bb"
 ## Create recipe using recipe tool 
 
 `recipetool create -o (recipename.bb) (src link)`
+
 
 
 
