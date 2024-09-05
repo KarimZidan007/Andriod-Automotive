@@ -25,7 +25,7 @@ enum devv
 
 struct class *iti_class;
 
-struct cdev device_driver1;
+struct cdev device_driver1; //data structure to be inserted into the device
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Zidan");

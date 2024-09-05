@@ -51,8 +51,11 @@
 
 ## phy has three layers
 
+
+
 ![osi](images/phylayer.png) 
 
+- PMA -> it makes the two wires are capable to send and recieve on the same wire (so i have two wires i could send on them at the same time)
 
 ## phy hardware naming convention
 
@@ -89,7 +92,7 @@
 - **if type is 0x0806 it is an ARP frame**
 - **if type is 0x86dd it is an IPv6 frame**
 - **if type is 0x8847 it is a VLAN frame**
-- **if type is 0x8100 it is a VLAN tag frame**
+- **if type is 0x8100 it is a VLAN tag frame(has more 4bytes)**
 - **if type is 0x88FF it is a PTP frame**
 
 
@@ -100,7 +103,7 @@
 - VLAN is used to improve network security and performance
 
 **Tag frame**  
-- VLAN tag is added to the frame
+- VLAN tag (4bytes )is added to the frame
 - VLAN tag contains VLAN ID and other information
 - VLAN tag is used to identify the VLAN to which the frame belongs
 - VLAN tag is used to forward the frame to the correct VLAN
@@ -117,6 +120,10 @@
 
 
 ![alt text](images/switch.webp)
+
+- types of switches 
+1- managments switch ( has CPU and i could do some managment instructions on it )
+2- unmanagments switch ( just do routing for frames)
 
 - **inside switch configuration i could set VLAN EX: (port1 , port2) on VLAN1 , so i made routing , i route the frame to a specific vlan network**
 
@@ -139,6 +146,11 @@
 
 - **switching table is a table that contains the MAC addresses of the devices connected to the switch**
 
+- **i could route using MAC ADDRESS or using the tagged VLAN frame** 
+
+- **priority is for tagged , if i send unicast frame and it is a tagged for a VLAN , it will send it for the whole Virtual LAN**
+
+- **i could overwrite untagged frame to tagged frame using the switch it self**
 
 ## unicast - multicast - broadcast 
 
@@ -170,6 +182,7 @@
 - **subnet is used to divide a large network into smaller networks**
 - **subnet is used to improve network performance**
 
+
 ![alt text](images/subnet.webp)
 
 ## ROUTER
@@ -197,6 +210,7 @@
 
 - **arp is send a broadcast (the one who owns this ip send his MAC address ) then MACADDRESS is send**
 
+- **MAC ADDRESS TO IP called arp cache table on router**
 
 ## layer 4 : transport layer
 
@@ -270,5 +284,114 @@ protcole =17 ->UCP
 - **3-DHCB client will store the ip and mac address of the dhcb server**
 - **4-DHCB client will send a request to the dhcb server with its own ip and mac**
 - **5-DHCB server will send back a response with the ip and mac address of the dhcb**
+- **6- CLIENT PORT(68) , SERVER PORT(67)**
+
+## dynamic DHCB 
+![alt text](csg68-01-how-dhcp-works.webp)
+
+## explain 
+https://www.eventhelix.comnetworking/dhcp-flow/dhcp-sequence-diagram.pdf
+
+
+- **1-Discover IP is a broadcast - i want an ip**
+
+
+
+
+
+
+
+time sync - mac secuirty (consider it on your project)
+
+## CyberSecurity Pulse
+
+C I A
+
+1- COFEDNTIALITY 
+2- INTEGRITY
+3- AUTHENTICAITY
+
+- if you want to apply any feature in cybersecurity and see what it achieve from this list 
+
+COFEDNTIALITY -> CONFIRM THAT I HAVE THE ACCESS TO THIS FEATURE 
+
+INTEGRITY -> MAKE SURE THAT DATA FROM SENDER ARE THE SAME DATA I RECEIVED 
+
+AUTHENTICATITY -> CONFIRM THAT THE SENDER that SEND THIS DATA I KNOW HIM (Private -> Public)
+
+
+![alt text](image-1.png)
+
+1- SYMATRIC KEYS
+
+**only COFEDNTALITY** 
+ 
+ - use it in Data Enclusure
+
+2- Asymetric Key
+![alt text](image.png)
+
+- a pair of key that both will generate the same hash on the data 
+- **public key(verify the hash and recognize who the sender of the data)**
+- **private key(with only one node , calculate with private)**
+- **hash**
+
+- DIGITAL SIGNATURE
+
+## Asymetric Key Provides 
+
+AUTHENTICATITY , INTEGRITY
+but the content it self i did not know that i have access to decrypt this data
+so i have to use both symetric (public - public ) to Zipher the data at first before Hashing it 
+
+
+
+
+3- Symetric key and Asymetric keys together 
+
+Symetric Key -> Asymetric (calculate hash) -> on the otherside (decrypt)
+
+## SEARCH FOR 
+**CHAIN OF TRUST**
+**Man in the middle attack**
+**Diffusion**
+
+
+
+## AUTOSAR 
+
+on COMSTACK 
+1- i send from application layer sent(ID) -> PDU -> PDU send it to the interface that has this ID 
+
+but ethernet does not know what is the PDU , ethernet stack works with socket not with PDU 
+
+so we have SOCKET ADAPTER -> (SoAd) , change sockets to pdus , pdus into sockets 
+
+![alt text](image-2.png)
+
+
+## SOME-IP PROTOCOLE 
+
+- standard way to serilization for data
+
+- to send data over SOME/IP they invent service discovery (offer service(publisher) , subscriber)
+
+## Standards in AUTOSAR 
+
+1. AUTOSAR 
+
+2.  Automotive Saftey integrity Levels(ASIL)
+
+3. Hazard and Risk Assessment(HARA)
+
+4. Automotive SPCICE (Software Process improvement and Capability determination)
+
+5.ISO/SAE21434 (DEFINE CYPERSECURITY REQUIRMENTS (TARA assigsment))
+## READ ISO 26262 - Chapter 6
+
+
+## ISO14229 (DIAGNOSTIC (MOST TRENDY PART ON AUTOMOTIVE NOWDAYS))
+
+
 
 

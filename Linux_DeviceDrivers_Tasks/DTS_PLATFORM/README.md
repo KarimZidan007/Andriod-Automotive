@@ -142,4 +142,12 @@ on local.conf
 to force yocto to build the module into the image
 MACHINE_ESSENTIAL_EXTRA_DEPENDS +="myrecipe"
 
+----------------------------------------------
 
+## SUMMARY 
+
+1. write dts 
+
+2. insert driver (once i insert it it will call prob and do the initialization directly and create the directory and node for it ) 
+
+3. once i connect the device , it is ready to use 
