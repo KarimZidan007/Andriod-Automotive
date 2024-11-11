@@ -120,7 +120,7 @@ cc_binary {
 
 ```bash
 
-service ledservice /vendor/bin/ledservice
+service ledservice /system/bin/ledservice
     class late_start
     user root
     group root
