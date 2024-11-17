@@ -16,7 +16,27 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d60804-7a53-40e1-b877-f7951471d1f2" name="Changes" comment="" />
+    <list default="true" id="f4d60804-7a53-40e1-b877-f7951471d1f2" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Linux-Java-Project/Yocto/CameraProj/meta-javaFXmedia/recipes-support/meta-python2" beforeDir="false" afterPath="$PROJECT_DIR$/../Linux-Java-Project/Yocto/CameraProj/meta-javaFXmedia/recipes-support/meta-python2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Linux-Java-Project/Yocto/CameraProj/meta-raspberrypi" beforeDir="false" afterPath="$PROJECT_DIR$/../Linux-Java-Project/Yocto/CameraProj/meta-raspberrypi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/data/LoginDataSource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/data/LoginRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/data/Result.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/data/model/LoggedInUser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/ui/login/LoggedInUserView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/ui/login/LoginActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/ui/login/LoginFormState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/ui/login/LoginResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/ui/login/LoginViewModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/java/com/example/myapplication/ui/login/LoginViewModelFactory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout-w1240dp/activity_login.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout-w936dp/activity_login.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/layout/activity_login.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values-land/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values-w1240dp/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values-w600dp/dimens.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MyApplication/app/src/main/res/values/dimens.xml" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,9 +54,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2mRJSEGB9r1It5apnI8Pg6PB0AZ" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -52,7 +72,8 @@
     "cidr.known.project.marker": "true",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "I:/Andriod Automotive/GITHUB_TASKS/AndriodProject"
   }
 }]]></component>
   <component name="RunManager">
